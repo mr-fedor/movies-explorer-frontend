@@ -1,0 +1,41 @@
+.techs__sub-title{
+    text-align: center;
+    margin-top: 0;
+    margin-bottom: 24px;
+    font-size: 30px;
+    line-height: 1.2;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #000000;
+    font-weight: 400;
+}
+
+.techs__desc{
+    margin-top: 0;
+    margin-bottom: 40px;
+}
+
+.techs__list{
+    list-style: none;
+    padding: 0;
+    margin: 0 auto;
+    display: flex;
+    flex-wrap: wrap;
+    max-width: 190px;
+}
+
+.techs__item{
+    background: #E8E8E8;
+    border-radius: 10px;
+    font-size: 12px;
+    line-height: 1.25;
+    text-align: center;
+    letter-spacing: -0.04em;
+    color: #000000;
+    margin: 10px 5px 0;
+    width: 84px;
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -7,4 +7,35 @@
   -moz-text-size-adjust: 100%;
   text-rendering: optimizeLegibility;
   min-height: 100vh;
+  background-color: #fff;
+  color: #000;
+  font-size: 11px;
+}
+
+@media screen and (min-width: 768px){
+  .page{
+    font-size: 16px;
+  }
+}
+
+.container{
+  max-width: 1140px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 0 14px;
+  box-sizing: border-box;
+}
+
+.block{
+  padding-top: 70px;
+  padding-bottom: 70px;
+}
+
+.block__title{
+  margin-top: 0;
+  margin-bottom: 60px;
+  padding-bottom: 28px;
+  font-weight: 400;
+  font-size: 18px;
+  border-bottom: 1px solid #000;
 }
