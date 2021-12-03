@@ -1,3 +1,9 @@
+@media screen and (min-width: 1200px){
+    .about-me{
+        padding-bottom: 125px;
+    }
+}
+
 @media screen and (min-width: 768px){
     .student{
         display: flex;
@@ -19,6 +25,13 @@
     }
 }
 
+@media screen and (min-width: 1200px){
+    .student__img{
+        margin-left: 270px;
+        max-width: 270px;
+    }
+}
+
 .student__title{
     font-size: 30px;
     line-height: 1.2;
@@ -34,6 +47,14 @@
         font-size: 40px;
         line-height: 40px;
         margin-bottom: 16px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .student__title{
+        font-size: 50px;
+        line-height: 58px;
+        margin-bottom: 18px;
     }
 }
 
@@ -54,6 +75,14 @@
     }
 }
 
+@media screen and (min-width: 1200px){
+    .student__status{
+        font-size: 18px;
+        line-height: 20px;
+        margin-bottom: 26px;
+    }
+}
+
 .student__text{
     font-size: 11px;
     line-height: 1.45;
@@ -65,6 +94,13 @@
     .student__text{
         font-size: 12px;
         line-height: 18px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .student__text{
+        font-size: 14px;
+        line-height: 22px;
     }
 }
 
@@ -80,6 +116,12 @@
     .student__list{
         margin-top: 87px;
         margin-bottom: 0;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .student__list{
+        margin-top: 99px;
     }
 }
 
@@ -164,6 +206,13 @@
 @media screen and (min-width: 768px){
     .portfolio-list__link{
         font-size: 28px;
+        line-height: 50px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .portfolio-list__link{
+        font-size: 30px;
         line-height: 50px;
     }
 }

@@ -5,6 +5,12 @@
     }    
 }
 
+@media screen and (min-width: 1200px) {
+    .about-project__content{
+        margin-bottom: 110px;
+    }    
+}
+
 .about-project__article{
     margin-bottom: 56px;
 }
@@ -43,6 +49,12 @@
     }
 }
 
+@media screen and (min-width: 1200px){
+    .about-project__article-title{
+        margin-bottom: 26px;
+    }
+}
+
 .about-project__article-text{
     margin: 0;
     line-height: 1.45;
@@ -52,6 +64,13 @@
     .about-project__article-text{
         font-size: 12px;
         line-height: 18px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .about-project__article-text{
+        font-size: 14px;
+        line-height: 20px;
     }
 }
 
@@ -77,6 +96,12 @@
 @media screen and (min-width: 768px){
     .bar__item_type_backend{
         max-width: 140px;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .bar__item_type_backend{
+        max-width: 228px;
     }
 }
 

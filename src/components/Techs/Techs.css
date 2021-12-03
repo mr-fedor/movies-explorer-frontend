@@ -10,6 +10,12 @@
     }
 }
 
+@media screen and (min-width: 1200px){
+    .techs__title{
+        margin-bottom: 90px;
+    }
+}
+
 .techs__sub-title{
     text-align: center;
     margin-top: 0;
@@ -45,6 +51,14 @@
         margin-bottom: 83px;
         margin-left: auto;
         margin-right: auto;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .techs__desc{
+        font-size: 14px;
+        line-height: 20px;
+        margin-bottom: 90px;
     }
 }
 
@@ -88,5 +102,13 @@
     }
     .techs__item:last-of-type{
         margin-right: 0;
+    }
+}
+
+@media screen and (min-width: 1200px){
+    .techs__item{
+        font-size: 14px;
+        width: 90px;
+        height: 60px;
     }
 }
