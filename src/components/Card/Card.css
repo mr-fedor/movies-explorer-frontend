@@ -105,6 +105,13 @@
     transition: opacity .3s ease;
 }
 
+.card__btn_type_saved{
+    background-color: #FF3055;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../images/icon-saved.svg);
+}
+
 .card__btn:hover{
     opacity: .8;
 }
