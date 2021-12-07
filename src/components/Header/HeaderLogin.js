@@ -12,7 +12,7 @@ function HeaderLogin() {
         <nav className="header__nav header__nav_screen_desktop">
           <ul className="header__list header__list_screen_desktop">
             <li className="header__item header__item_screen_desktop">
-              <Link to="/movies" className="header__link header__link_font_bold">Фильмы</Link>
+              <Link to="/movies" className="header__link header__link_active">Фильмы</Link>
             </li>
             <li className="header__item header__item_screen_desktop">
               <Link to="/saved-movies" className="header__link header__link_desktop">Сохранённые фильмы</Link>

@@ -136,7 +136,7 @@
     display: block;
     width: 34px;
     height: 14px;
-    background-color: rgba(170, 170, 170, .2);
+    background-color: #EBEBEB;
     border-radius: 20px;
     transition: background-color .3s ease;
     position: relative;
@@ -147,7 +147,7 @@
     display: block;
     width: 10px;
     height: 10px;
-    background-color: #fff;
+    background-color: #F5F5F5;
     border-radius: 50px;
     position: absolute;
     left: 2px;
@@ -161,4 +161,5 @@
 
 .checkbox__input:checked ~ .checkbox__toggle::after{
     left: 22px;
+    background-color: #fff;
 }

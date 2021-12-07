@@ -51,7 +51,7 @@
     transition: opacity .3s ease;
 }
 
-.card__btn:hover{
+.cards__btn:hover{
     opacity: .8;
 }
 
