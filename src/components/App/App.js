@@ -47,7 +47,7 @@ function App() {
           <Register />
         </Route>
         <Route exact path="/signin">
-
+          <Login />
         </Route>
         <Route path="*">
           <NotFound />
