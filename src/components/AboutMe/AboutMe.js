@@ -17,7 +17,7 @@ function AboutMe() {
             <p className="student__text">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
             </p>
 
-            <ul class="student__list">
+            <ul className="student__list">
               <li className="student__item"><Link to="#" className="student__link">Facebook</Link></li>
               <li className="student__item"><Link to="#" className="student__link">GitHub</Link></li>
             </ul>

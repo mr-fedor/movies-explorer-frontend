@@ -20,7 +20,7 @@ function HeaderLogin() {
           </ul>
         </nav>
 
-        <Link className="header__link header__link_type_account header__link_screen_desktop-flex">Аккаунт</Link>
+        <Link className="header__link header__link_type_account header__link_screen_desktop-flex" to="/profile">Аккаунт</Link>
         <button className="header__hamburger" type="button" onClick={() => {setIsOpenMenu(!isOpenMenu)}}></button>
       </div>
 
@@ -42,7 +42,7 @@ function HeaderLogin() {
             </ul>
           </nav>
 
-          <Link className="header__link header__link_type_account">Аккаунт</Link>
+          <Link className="header__link header__link_type_account" to="/profile">Аккаунт</Link>
         </div>
       </div>
     </header>

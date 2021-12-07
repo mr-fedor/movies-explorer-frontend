@@ -10,6 +10,7 @@ import AboutMe from '../AboutMe/AboutMe';
 import Search from '../Search/Search';
 import Cards from '../Cards/Cards';
 import CardsSaved from '../Cards/CardsSaved'
+import Profile from '../Profile/Profile'
 
 function App() {
   return (
@@ -35,7 +36,10 @@ function App() {
           <CardsSaved />
           <Footer />
         </Route>
-        <Route exact path="/profile"></Route>
+        <Route exact path="/profile">
+          <HeaderLogin />
+          <Profile />
+        </Route>
         <Route exact path="/signin"></Route>
         <Route exact path="/signup"></Route>
         <Route path="*"></Route>

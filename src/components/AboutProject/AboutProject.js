@@ -7,7 +7,7 @@ function AboutProject() {
       <div className="container">
         <h2 className="block__title">О проекте</h2>
 
-        <div class="about-project__content">
+        <div className="about-project__content">
           <article className="about-project__article">
             <h3 className="about-project__article-title">Дипломный проект включал 5 этапов</h3>
             <p className="about-project__article-text">Составление плана, работу над бэкендом, вёрстку, добавление функциональности и&nbsp;финальные доработки.</p>
@@ -18,14 +18,14 @@ function AboutProject() {
           </article>
         </div>
 
-        <ul class="about-project__bar bar">
-          <li class="bar__item bar__item_type_backend">
+        <ul className="about-project__bar bar">
+          <li className="bar__item bar__item_type_backend">
             <div className="bar__line bar__line_bg_green">
               <p className="bar__title">1 неделя</p>
             </div>
             <p className="bar__desc">Back-end</p>
           </li>
-          <li class="bar__item bar__item_type_frontend">
+          <li className="bar__item bar__item_type_frontend">
             <div className="bar__line">
               <p className="bar__title">4 недели</p>
             </div>
