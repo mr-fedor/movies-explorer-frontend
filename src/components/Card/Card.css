@@ -112,6 +112,12 @@
     background-image: url(../../images/icon-saved.svg);
 }
 
+.card__btn_type_delete{
+    background-position: center;
+    background-repeat: no-repeat;
+    background-image: url(../../images/icon-delete.svg);
+}
+
 .card__btn:hover{
     opacity: .8;
 }

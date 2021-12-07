@@ -9,6 +9,7 @@ import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Search from '../Search/Search';
 import Cards from '../Cards/Cards';
+import CardsSaved from '../Cards/CardsSaved'
 
 function App() {
   return (
@@ -28,7 +29,12 @@ function App() {
           <Cards />
           <Footer />
         </Route>
-        <Route exact path="/saved-movies"></Route>
+        <Route exact path="/saved-movies">
+          <HeaderLogin />
+          <Search />
+          <CardsSaved />
+          <Footer />
+        </Route>
         <Route exact path="/profile"></Route>
         <Route exact path="/signin"></Route>
         <Route exact path="/signup"></Route>
