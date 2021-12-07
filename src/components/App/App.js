@@ -12,6 +12,8 @@ import Cards from '../Cards/Cards';
 import CardsSaved from '../Cards/CardsSaved'
 import Profile from '../Profile/Profile'
 import NotFound from '../NotFound/NotFound'
+import Register from '../Register/Register'
+import Login from '../Login/Login'
 
 function App() {
   return (
@@ -41,8 +43,12 @@ function App() {
           <HeaderLogin />
           <Profile />
         </Route>
-        <Route exact path="/signin"></Route>
-        <Route exact path="/signup"></Route>
+        <Route exact path="/signup">
+          <Register />
+        </Route>
+        <Route exact path="/signin">
+
+        </Route>
         <Route path="*">
           <NotFound />
         </Route>

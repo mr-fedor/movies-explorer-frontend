@@ -39,6 +39,16 @@
   }
 }
 
+.logo{
+  display: block;
+  width: 38px;
+  height: 38px;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(../../images/logo.svg);
+}
+
 .block{
   padding-top: 70px;
   padding-bottom: 70px;

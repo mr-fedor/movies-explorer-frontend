@@ -8,7 +8,7 @@ function HeaderLogin() {
   return (
     <header className="header">
       <div className="header__container container">
-        <Link className="header__logo" to="/"></Link>
+        <Link className="logo" to="/"></Link>
         <nav className="header__nav header__nav_screen_desktop">
           <ul className="header__list header__list_screen_desktop">
             <li className="header__item header__item_screen_desktop">
