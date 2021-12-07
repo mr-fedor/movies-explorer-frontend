@@ -11,6 +11,7 @@ import Search from '../Search/Search';
 import Cards from '../Cards/Cards';
 import CardsSaved from '../Cards/CardsSaved'
 import Profile from '../Profile/Profile'
+import NotFound from '../NotFound/NotFound'
 
 function App() {
   return (
@@ -42,7 +43,9 @@ function App() {
         </Route>
         <Route exact path="/signin"></Route>
         <Route exact path="/signup"></Route>
-        <Route path="*"></Route>
+        <Route path="*">
+          <NotFound />
+        </Route>
       </Switch>
     </div>
   );
