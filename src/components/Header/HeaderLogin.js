@@ -1,6 +1,6 @@
 import './Header.css';
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { NavLink, Link } from 'react-router-dom';
 
 function HeaderLogin() {
   const [isOpenMenu, setIsOpenMenu] = React.useState(false);
@@ -12,10 +12,10 @@ function HeaderLogin() {
         <nav className="header__nav header__nav_screen_desktop">
           <ul className="header__list header__list_screen_desktop">
             <li className="header__item header__item_screen_desktop">
-              <Link to="/movies" className="header__link header__link_active">Фильмы</Link>
+              <NavLink to="/movies" className="header__link" activeClassName='header__link_active'>Фильмы</NavLink>
             </li>
             <li className="header__item header__item_screen_desktop">
-              <Link to="/saved-movies" className="header__link header__link_desktop">Сохранённые фильмы</Link>
+              <NavLink to="/saved-movies" className="header__link header__link_desktop" activeClassName='header__link_active'>Сохранённые фильмы</NavLink>
             </li>
           </ul>
         </nav>
@@ -31,13 +31,13 @@ function HeaderLogin() {
           <nav className="header__nav header__nav_screen_mobile">
             <ul className="header__list header__list_screen_mobile">
               <li className="header__item header__item_screen_mobile">
-                <Link to="/" className="header__link header__link_type_nav">Главная</Link>
+                <NavLink exact to="/" className="header__link header__link_type_nav" activeClassName="header__link_active">Главная</NavLink>
               </li>
               <li className="header__item header__item_screen_mobile">
-                <Link to="/movies" className="header__link header__link_active header__link_type_nav">Фильмы</Link>
+                <NavLink to="/movies" className="header__link header__link_type_nav" activeClassName="header__link_active">Фильмы</NavLink>
               </li>
               <li className="header__item header__item_mobile">
-                <Link to="/saved-movies" className="header__link header__link_type_nav">Сохранённые фильмы</Link>
+                <NavLink to="/saved-movies" className="header__link header__link_type_nav" activeClassName="header__link_active">Сохранённые фильмы</NavLink>
               </li>
             </ul>
           </nav>
