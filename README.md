@@ -6,3 +6,5 @@
 - React
 - методология БЭМ
 - mobile-first
+
+URL - [https://blinov-movies.nomoredomains.rocks](https://blinov-movies.nomoredomains.rocks)
