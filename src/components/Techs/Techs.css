@@ -10,7 +10,7 @@
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .techs__title{
         margin-bottom: 90px;
     }
@@ -54,7 +54,7 @@
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .techs__desc{
         font-size: 14px;
         line-height: 20px;
@@ -105,7 +105,7 @@
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .techs__item{
         font-size: 14px;
         width: 90px;

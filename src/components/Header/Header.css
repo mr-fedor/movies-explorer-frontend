@@ -107,7 +107,7 @@
     border-bottom: 2px solid #000;
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .header__link_active{
         border-bottom: none;
         font-weight: bold;
@@ -118,7 +118,7 @@
     display: none;
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .header__link_screen_desktop-flex{
         display: inline-flex;
     }
@@ -189,7 +189,7 @@
     display: none;
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .header__nav_screen_desktop{
         display: block;
         margin-right: auto;
@@ -246,7 +246,7 @@
     opacity: .8;
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .header__hamburger{
         display: none;
     }

@@ -5,7 +5,7 @@
     }    
 }
 
-@media screen and (min-width: 1200px) {
+@media screen and (min-width: 1280px) {
     .about-project__content{
         margin-bottom: 110px;
     }    
@@ -49,7 +49,7 @@
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .about-project__article-title{
         margin-bottom: 26px;
     }
@@ -67,7 +67,7 @@
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .about-project__article-text{
         font-size: 14px;
         line-height: 20px;
@@ -99,7 +99,7 @@
     }
 }
 
-@media screen and (min-width: 1200px){
+@media screen and (min-width: 1280px){
     .bar__item_type_backend{
         max-width: 228px;
     }
