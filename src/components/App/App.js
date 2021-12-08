@@ -8,8 +8,8 @@ import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Search from '../Search/Search';
-import Cards from '../Cards/Cards';
-import CardsSaved from '../Cards/CardsSaved'
+import MoviesCardList from '../MoviesCardList/MoviesCardList';
+import MoviesCardListSaved from '../MoviesCardList/MoviesCardListSaved'
 import Profile from '../Profile/Profile'
 import NotFound from '../NotFound/NotFound'
 import Register from '../Register/Register'
@@ -30,13 +30,13 @@ function App() {
         <Route exact path="/movies">
           <HeaderLogin />
           <Search />
-          <Cards />
+          <MoviesCardList />
           <Footer />
         </Route>
         <Route exact path="/saved-movies">
           <HeaderLogin />
           <Search />
-          <CardsSaved />
+          <MoviesCardListSaved />
           <Footer />
         </Route>
         <Route exact path="/profile">
