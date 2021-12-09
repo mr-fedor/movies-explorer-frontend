@@ -1,0 +1,143 @@
+@media screen and (min-width: 768px) {
+    .about-project__content{
+        display: flex;
+        margin: 0 -15px 90px;
+    }    
+}
+
+@media screen and (min-width: 1280px) {
+    .about-project__content{
+        margin-bottom: 110px;
+    }    
+}
+
+.about-project__article{
+    margin-bottom: 56px;
+}
+
+.about-project__article:last-of-type{
+    margin-bottom: 60px;
+}
+
+@media screen and (min-width: 768px){
+    .about-project__article{
+        padding: 0 15px;
+        max-width: 50%;
+        width: 100%;
+        margin-bottom: 0;
+    }
+
+    .about-project__article:last-of-type{
+        margin-bottom: 0;
+    }
+}
+
+.about-project__article-title{
+    margin-top: 0;
+    margin-bottom: 16px;
+    font-size: 18px;
+    line-height: 22px;
+    font-weight: 400;
+    letter-spacing: -0.04em;
+}
+
+@media screen and (min-width: 768px){
+    .about-project__article-title{
+        font-size: 20px;
+        line-height: 24px;
+        margin-bottom: 22px;
+    }
+}
+
+@media screen and (min-width: 1280px){
+    .about-project__article-title{
+        margin-bottom: 26px;
+    }
+}
+
+.about-project__article-text{
+    margin: 0;
+    line-height: 1.45;
+}
+
+@media screen and (min-width: 768px){
+    .about-project__article-text{
+        font-size: 12px;
+        line-height: 18px;
+    }
+}
+
+@media screen and (min-width: 1280px){
+    .about-project__article-text{
+        font-size: 14px;
+        line-height: 20px;
+    }
+}
+
+.bar{
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    max-width: 100%;
+}
+
+.bar__item{
+    width: 100%;
+}
+
+.bar__item_type_backend{
+    max-width: 100px;
+}
+
+@media screen and (min-width: 768px){
+    .bar__item_type_backend{
+        max-width: 140px;
+    }
+}
+
+@media screen and (min-width: 1280px){
+    .bar__item_type_backend{
+        max-width: 228px;
+    }
+}
+
+.bar__line{
+    background: #F2F2F2;
+    padding: 11px 10px;
+}
+
+.bar__line_bg_green{
+    background: #2BE080;
+}
+
+.bar__title{
+    margin: 0;
+    font-size: 11px;
+    line-height: 13px;
+}
+
+@media screen and (min-width: 768px){
+    .bar__title{
+        font-size: 14px;
+        line-height: 17px;
+    }
+}
+
+.bar__desc{
+    margin-top: 10px;
+    margin-bottom: 0;
+    color: #A0A0A0;
+    line-height: 13px;
+}
+
+@media screen and (min-width: 768px){
+    .bar__desc{
+        margin-top: 14px;
+        font-size: 14px;
+        line-height: 17px;
+    }
+}

@@ -1,0 +1,253 @@
+.header{
+    padding-top: 18px;
+    padding-bottom: 18px;
+    background-color: #fff;
+}
+
+.header_dark{
+    background-color: #073042;
+}
+
+.header__container{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.header__menu-login{
+    display: flex;
+    align-items: center;
+}
+
+.header__link{
+    color: #000;
+    display: block;
+    font-size: 10px;
+    line-height: 1.6;
+    font-weight: 500;
+    opacity: 1;
+    transition: .2s all ease;
+    text-decoration: none;
+}
+
+@media screen and (min-width: 768px){
+    .header__link{
+        font-size: 12px;
+    }
+}
+
+@media screen and (min-width: 768px){
+    .header__link{
+        font-size: 13px;
+    }
+}
+
+.header__link:hover{
+    opacity: .8;
+}
+
+.header__link_color_white{
+    color: #fff;
+}
+
+.header__link_type_signup{
+    margin-right: 14px;
+}
+
+@media screen and (min-width: 768px){
+    .header__link_type_signup{
+        margin-right: 30px;
+    }
+}
+
+.header__link_type_signin{
+    padding: 5px 12px;
+    background: #2BE080;
+    border-radius: 3px;
+}
+
+@media screen and (min-width: 768px){
+    .header__link_type_signin{
+        padding: 8px 20px;
+    }
+}
+
+.header__link_type_account{
+    padding: 8px 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #AAAAAA;
+    border-radius: 50px;
+    font-size: 14px;
+    line-height: 16px;
+}
+
+.header__link_type_account:before{
+    width: 12px;
+    height: 14px;
+    display: block;
+    content: '';
+    margin-right: 7px;
+    background-image: url(../../images/icon-account.svg);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: contain;
+}
+
+.header__link_type_nav{
+    font-size: 18px;
+    line-height: 22px;
+    display: inline-block;
+    padding-bottom: 7px;
+    border-bottom: 2px solid transparent;
+}
+
+.header__link_active{
+    border-bottom: 2px solid #000;
+}
+
+@media screen and (min-width: 1280px){
+    .header__link_active{
+        border-bottom: none;
+        font-weight: bold;
+    }
+}
+
+.header__link_screen_desktop-flex{
+    display: none;
+}
+
+@media screen and (min-width: 1280px){
+    .header__link_screen_desktop-flex{
+        display: inline-flex;
+    }
+}
+
+.header__mobile{
+    background-color: rgba(0, 0, 0, .3);
+    width: 100%;
+    height: 100vh;
+    z-index: 99;
+    position: fixed;
+    left: 0;
+    top: 0;
+    display: flex;
+    align-items: stretch;
+    justify-content: flex-end;
+    visibility: hidden;
+    opacity: 0;
+}
+
+.header__mobile_active{
+    visibility: visible;
+    opacity: 1;
+    transition: visibility 0s, opacity .3s linear;
+}
+
+.header__mobile-container{
+    background-color: #fff;
+    height: 100%;
+    max-width: 520px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    position: relative;
+    padding: 144px 15px 46px;
+    box-sizing: border-box;
+}
+
+.header__close{
+    display: block;
+    width: 22px;
+    height: 22px;
+    position: absolute;
+    right: 14px;
+    top: 14px;
+    margin: 0;
+    border: none;
+    background-color: transparent;
+    background-image: url(../../images/header-close.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.header__close:hover{
+    opacity: .8;
+}
+
+.header__mobile-container{
+    height: 100%;
+}
+
+.header__nav_screen_desktop{
+    display: none;
+}
+
+@media screen and (min-width: 1280px){
+    .header__nav_screen_desktop{
+        display: block;
+        margin-right: auto;
+        margin-left: 44px;
+    }
+}
+
+.header__list{
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.header__list_screen_mobile{
+    text-align: center;
+}
+
+.header__list_screen_desktop{
+    display: flex;
+    align-items: center;
+}
+
+.header__item_screen_mobile{
+    margin-bottom: 17px;
+}
+
+.header__item_screen_mobile:last-of-type{
+    margin-bottom: 0;
+}
+
+.header__item_screen_desktop{
+    margin-right: 16px;
+}
+
+.header__item_screen_desktop:last-of-type{
+    margin-right: 0;
+}
+
+.header__hamburger{
+    display: block;
+    width: 40px;
+    height: 43px;
+    border: none;
+    background-color: transparent;
+    background-image: url(../../images/icon-hamburger.svg);
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+    cursor: pointer;
+    transition: opacity .3s ease;
+}
+
+.header__hamburger:hover{
+    opacity: .8;
+}
+
+@media screen and (min-width: 1280px){
+    .header__hamburger{
+        display: none;
+    }
+}
