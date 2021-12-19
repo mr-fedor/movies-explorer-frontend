@@ -149,7 +149,7 @@ function App() {
   function onSignOut(){
     localStorage.removeItem('jwt');
     setLoggedIn(false);
-    history.push('/sign-in');
+    history.push('/');
   };
 
   return (
@@ -195,6 +195,7 @@ function App() {
             path="/profile"
             loggedIn={loggedIn}
             component={Profile}
+            onSignOut={onSignOut}
         />
         
         <Route exact path="/signup">

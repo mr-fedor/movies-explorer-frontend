@@ -46,7 +46,7 @@ function Profile(props) {
         { !isEdit ? 
           <div className="profile__btns">
             <button type="button" className="profile__btn profile__btn_edit" onClick={handleStartEditForm}>Редактировать</button>
-            <button type="button" className="profile__btn profile__btn_logout">Выйти из аккаунта</button>
+            <button type="button" className="profile__btn profile__btn_logout" onClick={props.onSignOut}>Выйти из аккаунта</button>
           </div>
           : '' }
       </section>
