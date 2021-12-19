@@ -1,7 +1,7 @@
 import './AboutMe.css';
 import React from 'react';
 import { Link } from 'react-router-dom';
-import student from '../../images/author.jpg'; 
+import student from '../../images/cat.jpg'; 
 
 function AboutMe() {
   return (
@@ -10,16 +10,16 @@ function AboutMe() {
         <h2 className="block__title">Студент</h2>
 
         <article className="about-me__container student">
-          <img className="student__img" src={student} alt="Виталий" />
+          <img className="student__img" src={student} alt="Алексей" />
           <div className="student__content">
-            <h3 className="student__title">Виталий</h3>
-            <p className="student__status">Фронтенд-разработчик, 30 лет</p>
-            <p className="student__text">Я родился и живу в Саратове, закончил факультет экономики СГУ. У меня есть жена и дочь. Я люблю слушать музыку, а ещё увлекаюсь бегом. Недавно начал кодить. С 2015 года работал в компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и ушёл с постоянной работы.
+            <h3 className="student__title">Алексей</h3>
+            <p className="student__status">Фронтенд-разработчик, 29 лет</p>
+            <p className="student__text">Я родился и живу в Кирове, закончил факультет экономики СГУ. Я люблю слушать музыку, а ещё увлекаюсь бегом. С 2015 года занимаюсь веб-разработкой. 
             </p>
 
             <ul className="student__list">
-              <li className="student__item"><Link to="#" className="student__link">Facebook</Link></li>
-              <li className="student__item"><Link to="#" className="student__link">GitHub</Link></li>
+              <li className="student__item"><Link to={{ pathname: "https://t.me/mr_fedor" }} target="_blank" className="student__link">Telegram</Link></li>
+              <li className="student__item"><Link to={{ pathname: "https://github.com/mr-fedor" }} target="_blank" className="student__link">GitHub</Link></li>
             </ul>
           </div>
         </article>
