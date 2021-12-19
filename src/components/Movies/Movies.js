@@ -8,7 +8,7 @@ function Movies(props){
     return (
         <>
             <Header loggedIn={props.loggedIn} />
-            <Search onSearchFilms={props.handleSearchFilms} />
+            <Search onSearchFilms={props.onSearchFilms} />
             <MoviesCardList 
                 isLoadingCards={props.isLoadingCards} 
                 cards={props.cards}

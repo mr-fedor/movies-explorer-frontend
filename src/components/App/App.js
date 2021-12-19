@@ -1,5 +1,6 @@
 import './App.css';
 import React from 'react';
+import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import { Switch, Route, useHistory } from 'react-router-dom';
 import * as auth from '../../utils/Auth.js';
 import Header from '../Header/Header';
@@ -15,6 +16,7 @@ import Login from '../Login/Login'
 import moviesApi from '../../utils/MoviesApi.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Movies from '../Movies/Movies';
+import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 function App() {
   const [isLoadingCards, setIsLoadingCards] = React.useState(false);
@@ -28,7 +30,9 @@ function App() {
   const [showCards, setShowCards] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
 
+  const [currentUser, setCurrentUser] = React.useState({ name: '', email: '', _id: '' });
   const [statusSuccessRegister, setStatusSuccessRegister] = React.useState('false');
+  const [isStatusSuccessPopupOpen, setIsStatusSuccessPopupOpen] = React.useState(false);
   const history = useHistory();
 
   React.useEffect(() => {
@@ -37,6 +41,8 @@ function App() {
     if (jwt) {
       authHandle(jwt);
     }
+
+    console.log(loggedIn);
   }, [loggedIn]);
 
   function authHandle(jwt){
@@ -124,8 +130,10 @@ function App() {
         }
       })
       .catch((err) => {
+        console.log(err);
         setStatusSuccessRegister('error');
       })
+      .finally(() => setIsStatusSuccessPopupOpen(true));
   };
 
   function onLogin({password, email}){
@@ -133,6 +141,7 @@ function App() {
       .then((res) => {
         if (!res){
           setStatusSuccessRegister('error');
+          setIsStatusSuccessPopupOpen(true);
         }
         if (res) {
           setLoggedIn(true);
@@ -140,8 +149,9 @@ function App() {
           history.push('/movies');
         }
       })
-      .catch((err)=>{ 
+      .catch((err) => { 
         setStatusSuccessRegister('error');
+        setIsStatusSuccessPopupOpen(true);
         console.log(err);
       });
   }
@@ -152,63 +162,71 @@ function App() {
     history.push('/');
   };
 
+  function closeAllPopups(){
+    setIsStatusSuccessPopupOpen(false);
+  }
+
   return (
     <div className="page">
-      <Switch>
-        <Route exact path="/">
-          <Header loggedIn={loggedIn} onSignOut={onSignOut} isDark={true} />
-          <Promo />
-          <AboutProject />
-          <Techs />
-          <AboutMe />
-          <Footer />
-        </Route>
+      <CurrentUserContext.Provider value={currentUser}>
+        <Switch>
+          <Route exact path="/">
+            <Header loggedIn={loggedIn} onSignOut={onSignOut} isDark={true} />
+            <Promo />
+            <AboutProject />
+            <Techs />
+            <AboutMe />
+            <Footer />
+          </Route>
 
-        <ProtectedRoute
-            exact
-            path="/movies"
-            loggedIn={loggedIn}
-            component={Movies}
-            onSearchFilms={handleSearchFilms}
-            isLoadingCards={isLoadingCards} 
-            cards={cards}
-            showCards={showCards} 
-            isNotFound={isNotFound} 
-            handleMoreCards={handleMoreCards} 
-        />
+          <ProtectedRoute
+              exact
+              path="/movies"
+              loggedIn={loggedIn}
+              component={Movies}
+              onSearchFilms={handleSearchFilms}
+              isLoadingCards={isLoadingCards} 
+              cards={cards}
+              showCards={showCards} 
+              isNotFound={isNotFound} 
+              handleMoreCards={handleMoreCards} 
+          />
 
-        <ProtectedRoute
-            exact
-            path="/saved-movies"
-            loggedIn={loggedIn}
-            component={Movies}
-            onSearchFilms={handleSearchFilms}
-            isLoadingCards={isLoadingCards} 
-            cards={cards}
-            showCards={showCards} 
-            isNotFound={isNotFound} 
-            handleMoreCards={handleMoreCards} 
-        />
+          <ProtectedRoute
+              exact
+              path="/saved-movies"
+              loggedIn={loggedIn}
+              component={Movies}
+              onSearchFilms={handleSearchFilms}
+              isLoadingCards={isLoadingCards} 
+              cards={cards}
+              showCards={showCards} 
+              isNotFound={isNotFound} 
+              handleMoreCards={handleMoreCards} 
+          />
 
-        <ProtectedRoute
-            exact
-            path="/profile"
-            loggedIn={loggedIn}
-            component={Profile}
-            onSignOut={onSignOut}
-        />
-        
-        <Route exact path="/signup">
-          <Register onRegister={onRegister} />
-        </Route>
-        <Route exact path="/signin">
-          <Login onLogin={onLogin} />
-        </Route>
-        
-        <Route path="*">
-          <NotFound />
-        </Route>
-      </Switch>
+          <ProtectedRoute
+              exact
+              path="/profile"
+              loggedIn={loggedIn}
+              component={Profile}
+              onSignOut={onSignOut}
+          />
+          
+          <Route exact path="/signup">
+            <Register onRegister={onRegister} />
+          </Route>
+          <Route exact path="/signin">
+            <Login onLogin={onLogin} />
+          </Route>
+          
+          <Route path="*">
+            <NotFound />
+          </Route>
+        </Switch>
+
+        {statusSuccessRegister && <InfoTooltip status={statusSuccessRegister} isOpen={isStatusSuccessPopupOpen} onClose={closeAllPopups} />}
+      </CurrentUserContext.Provider>
     </div>
   );
 }

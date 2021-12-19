@@ -26,6 +26,7 @@ function Login(props) {
           <label className="form__label">
               <span className="form__label-title">Email</span>
               <input 
+                required
                 className="form__input form__input_email" 
                 name="email" 
                 type="email" 
@@ -38,6 +39,8 @@ function Login(props) {
           <label className="form__label">
               <span className="form__label-title">Пароль</span>
               <input 
+                required
+                minLength="8"
                 className="form__input form__input_password" 
                 name="password" 
                 type="password" 
