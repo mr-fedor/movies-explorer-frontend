@@ -9,13 +9,15 @@ import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
 import Search from '../Search/Search';
-import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import MoviesCardListSaved from '../MoviesCardList/MoviesCardListSaved'
 import Profile from '../Profile/Profile'
 import NotFound from '../NotFound/NotFound'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
 import moviesApi from '../../utils/MoviesApi.js';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
+import Movies from '../Movies/Movies';
+
 
 function App() {
   const [isLoadingCards, setIsLoadingCards] = React.useState(false);
@@ -27,6 +29,8 @@ function App() {
   const [dowloadCard, setDownloadCard] = React.useState(2);
 
   const [showCards, setShowCards] = React.useState([]);
+
+  const [loggedIn, setLoggedIn] = React.useState(false);
 
   React.useEffect(() => {
     if(window.innerWidth >= 768 && window.innerWidth < 1280){
@@ -96,36 +100,47 @@ function App() {
     <div className="page">
       <Switch>
         <Route exact path="/">
-          <Header />
+          <Header loggedIn={loggedIn} />
           <Promo />
           <AboutProject />
           <Techs />
           <AboutMe />
           <Footer />
         </Route>
-        <Route exact path="/movies">
-          <HeaderLogin />
-          <Search onSearchFilms={handleSearchFilms} />
-          <MoviesCardList 
+
+        <ProtectedRoute
+            exact
+            path="/movies"
+            loggedIn={loggedIn}
+            component={Movies}
+            onSearchFilms={handleSearchFilms}
             isLoadingCards={isLoadingCards} 
             cards={cards}
             showCards={showCards} 
             isNotFound={isNotFound} 
             handleMoreCards={handleMoreCards} 
-          />
-          <Footer />
-        </Route>
-        <Route exact path="/saved-movies">
-          <HeaderLogin />
-          <Search />
-          <MoviesCardListSaved />
-          <Footer />
-        </Route>
+        />
+
+        <ProtectedRoute
+            exact
+            path="/saved-movies"
+            loggedIn={loggedIn}
+            component={Movies}
+            onSearchFilms={handleSearchFilms}
+            isLoadingCards={isLoadingCards} 
+            cards={cards}
+            showCards={showCards} 
+            isNotFound={isNotFound} 
+            handleMoreCards={handleMoreCards} 
+        />
+
+        <ProtectedRoute
+            exact
+            path="/profile"
+            loggedIn={loggedIn}
+            component={Profile}
+        />
         
-        <Route exact path="/profile">
-          <HeaderLogin />
-          <Profile />
-        </Route>
         <Route exact path="/signup">
           <Register />
         </Route>
