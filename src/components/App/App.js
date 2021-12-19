@@ -1,7 +1,7 @@
 import './App.css';
 import React from 'react';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
-import { Switch, Route, useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import * as auth from '../../utils/Auth.js';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -34,6 +34,7 @@ function App() {
   const [statusSuccessRegister, setStatusSuccessRegister] = React.useState('false');
   const [isStatusSuccessPopupOpen, setIsStatusSuccessPopupOpen] = React.useState(false);
   const history = useHistory();
+  const location = useLocation();
 
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -41,9 +42,16 @@ function App() {
     if (jwt) {
       authHandle(jwt);
     }
-
-    console.log(loggedIn);
   }, [loggedIn]);
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt) {
+      authHandle(jwt);
+      history.push(location);
+    }
+  }, []);
 
   function authHandle(jwt){
     return auth.getUser(jwt)
