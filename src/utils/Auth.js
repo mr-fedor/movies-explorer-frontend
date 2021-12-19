@@ -1,4 +1,5 @@
-export const BASE_URL = "https://blinov-api.nomoredomains.work";
+// export const BASE_URL = "https://blinov-api.nomoredomains.work/api";
+export const BASE_URL = "http://localhost:3001/api";
 
 function _getRes(res){
     if (res.ok) {
@@ -8,14 +9,14 @@ function _getRes(res){
     return Promise.reject(`Ошибка: ${res.status}`);
 }
 
-export const register = (password, email) => {
+export const register = (password, email, name) => {
     return fetch(`${BASE_URL}/signup`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
         },
         credentials: 'include',
-        body: JSON.stringify({password, email})
+        body: JSON.stringify({password, email, name})
     })
     .then((res) => _getRes(res))
 };

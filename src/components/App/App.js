@@ -1,15 +1,13 @@
 import './App.css';
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
+import * as auth from '../../utils/Auth.js';
 import Header from '../Header/Header';
-import HeaderLogin from '../Header/HeaderLogin';
 import Footer from '../Footer/Footer';
 import Promo from '../Promo/Promo';
 import AboutProject from '../AboutProject/AboutProject';
 import Techs from '../Techs/Techs';
 import AboutMe from '../AboutMe/AboutMe';
-import Search from '../Search/Search';
-import MoviesCardListSaved from '../MoviesCardList/MoviesCardListSaved'
 import Profile from '../Profile/Profile'
 import NotFound from '../NotFound/NotFound'
 import Register from '../Register/Register'
@@ -17,7 +15,6 @@ import Login from '../Login/Login'
 import moviesApi from '../../utils/MoviesApi.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Movies from '../Movies/Movies';
-
 
 function App() {
   const [isLoadingCards, setIsLoadingCards] = React.useState(false);
@@ -29,8 +26,30 @@ function App() {
   const [dowloadCard, setDownloadCard] = React.useState(2);
 
   const [showCards, setShowCards] = React.useState([]);
-
   const [loggedIn, setLoggedIn] = React.useState(false);
+
+  const [statusSuccessRegister, setStatusSuccessRegister] = React.useState('false');
+  const history = useHistory();
+
+  React.useEffect(() => {
+    const jwt = localStorage.getItem('jwt');
+
+    if (jwt) {
+      authHandle(jwt);
+    }
+  }, [loggedIn]);
+
+  function authHandle(jwt){
+    return auth.getUser(jwt)
+      .then((res) => {
+        if (res.email) {
+          setLoggedIn(true);
+        }
+      })
+      .catch((err)=>{ 
+        console.log(err);
+      });
+  };
 
   React.useEffect(() => {
     if(window.innerWidth >= 768 && window.innerWidth < 1280){
@@ -96,11 +115,48 @@ function App() {
     setShowCards(cards.slice(0, currentCard));
   }
 
+  function onRegister({ password, email, name }) {
+    return auth.register(password, email, name)
+      .then((res) => {
+        if(res._id){
+          history.push('/signin');
+          setStatusSuccessRegister('success');
+        }
+      })
+      .catch((err) => {
+        setStatusSuccessRegister('error');
+      })
+  };
+
+  function onLogin({password, email}){
+    return auth.authorize(password, email)
+      .then((res) => {
+        if (!res){
+          setStatusSuccessRegister('error');
+        }
+        if (res) {
+          setLoggedIn(true);
+          localStorage.setItem('jwt', res.token);
+          history.push('/movies');
+        }
+      })
+      .catch((err)=>{ 
+        setStatusSuccessRegister('error');
+        console.log(err);
+      });
+  }
+
+  function onSignOut(){
+    localStorage.removeItem('jwt');
+    setLoggedIn(false);
+    history.push('/sign-in');
+  };
+
   return (
     <div className="page">
       <Switch>
         <Route exact path="/">
-          <Header loggedIn={loggedIn} />
+          <Header loggedIn={loggedIn} onSignOut={onSignOut} isDark={true} />
           <Promo />
           <AboutProject />
           <Techs />
@@ -142,10 +198,10 @@ function App() {
         />
         
         <Route exact path="/signup">
-          <Register />
+          <Register onRegister={onRegister} />
         </Route>
         <Route exact path="/signin">
-          <Login />
+          <Login onLogin={onLogin} />
         </Route>
         
         <Route path="*">

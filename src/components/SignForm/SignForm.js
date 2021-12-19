@@ -8,7 +8,7 @@ function SignForm(props){
             <Link className="logo sign-page__logo" to="/"></Link>
             <h1 className="page-title sign-title">{props.title}</h1>
 
-            <form className={`form form-${props.name}`} name={props.name} method="post">
+            <form className={`form form-${props.name}`} name={props.name} method="post" onSubmit={props.onSubmit}>
                 {props.children}
                 <fieldset className="form__handlers">
                     <button type="submit" className="form__button">{props.buttonText}</button>

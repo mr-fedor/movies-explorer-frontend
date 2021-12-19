@@ -2,7 +2,7 @@ import './Profile.css';
 import React from 'react';
 import Header from '../Header/Header';
 
-function Profile() {
+function Profile(props) {
   const [name, setName] = React.useState('Виталий');
   const [email, setEmail] = React.useState('pochta@yandex.ru');
   const [isEdit, setIsEdit] = React.useState(false);
@@ -21,7 +21,7 @@ function Profile() {
 
   return (
     <>
-      <Header />
+      <Header loggedIn={props.loggedIn} />
       <section className="profile form-wrapper container">
         <h1 className="profile__title page-title">Привет, Виталий!</h1>
         <form className="profile__form">
