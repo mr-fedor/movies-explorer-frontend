@@ -112,6 +112,11 @@
     opacity: .8;
 }
 
+.profile__submit_disabled{
+    opacity: .8;
+    cursor: not-allowed;
+}
+
 .profile__btns{
     text-align: center;
     display: flex;

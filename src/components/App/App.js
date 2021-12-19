@@ -2,6 +2,7 @@ import './App.css';
 import React from 'react';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
+import mainApi from '../../utils/MainApi.js';
 import * as auth from '../../utils/Auth.js';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
@@ -51,6 +52,16 @@ function App() {
       authHandle(jwt);
       history.push(location);
     }
+
+    return Promise.all([ 
+      mainApi.getUserInfo(),
+    ])
+    .then((values)=>{
+      setCurrentUser(values[0]);
+    })
+    .catch((err)=>{ 
+      console.log(err);
+    });
   }, []);
 
   function authHandle(jwt){
@@ -170,6 +181,14 @@ function App() {
     history.push('/');
   };
 
+  function handleUpdateUser(data){
+    mainApi.setUserInfo(data).then(user => {
+      setCurrentUser(user);
+    }).catch((err) => {
+      console.log(err); // выведем ошибку в консоль
+    });
+  }
+
   function closeAllPopups(){
     setIsStatusSuccessPopupOpen(false);
   }
@@ -219,6 +238,7 @@ function App() {
               loggedIn={loggedIn}
               component={Profile}
               onSignOut={onSignOut}
+              onSubmit={handleUpdateUser}
           />
           
           <Route exact path="/signup">
