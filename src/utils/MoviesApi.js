@@ -5,19 +5,17 @@ class MoviesApi{
         this._options = options;
     }
 
-    _getRes(res){
-        if (res.ok) {
-            return res.json();
-        }
-
-        return Promise.reject(`Ошибка: ${res.status}`);
-    }
-
     getFilms() {
         return fetch(`${this._options.baseUrl}`, {
           headers: this._options.headers
         })
-        .then(res => this._getRes(res));
+        .then(res => {
+            if (res.ok) {
+                return res.json();
+            }
+    
+            return Promise.reject(`Ошибка: ${res.status}`);
+        });
     }
 }
 
