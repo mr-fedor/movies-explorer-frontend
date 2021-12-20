@@ -32,6 +32,7 @@ function App() {
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({ name: '', email: '', _id: '' });
+  const [savedMovies, setSavedMovies] = React.useState([]);
   const [statusSuccessRegister, setStatusSuccessRegister] = React.useState('false');
   const [isStatusSuccessPopupOpen, setIsStatusSuccessPopupOpen] = React.useState(false);
   const history = useHistory();
@@ -51,17 +52,19 @@ function App() {
     if (jwt) {
       authHandle(jwt);
       history.push(location);
-    }
 
-    return Promise.all([ 
-      mainApi.getUserInfo(),
-    ])
-    .then((values)=>{
-      setCurrentUser(values[0]);
-    })
-    .catch((err)=>{ 
-      console.log(err);
-    });
+      return Promise.all([ 
+        mainApi.getUserInfo(),
+        mainApi.getSavedMovies(),
+      ])
+      .then((values)=>{
+        setCurrentUser(values[0]);
+        setSavedMovies(values[1]);
+      })
+      .catch((err)=>{ 
+        console.log(err);
+      });
+    }
   }, []);
 
   function authHandle(jwt){
@@ -185,12 +188,28 @@ function App() {
     mainApi.setUserInfo(data).then(user => {
       setCurrentUser(user);
     }).catch((err) => {
-      console.log(err); // выведем ошибку в консоль
+      console.log(err);
     });
   }
 
   function closeAllPopups(){
     setIsStatusSuccessPopupOpen(false);
+  }
+
+  function handleSaveMovie(card){
+    mainApi.addMovie(card).then(res => {
+      console.log('movie save');
+    }).catch((err) => {
+      console.log(err); 
+    });
+  }
+
+  function handleDeleteMovie(card){
+    mainApi.deleteMovie(card).then(res => {
+      console.log(res);
+    }).catch((err) => {
+      console.log(err); 
+    });
   }
 
   return (
@@ -216,7 +235,10 @@ function App() {
               cards={cards}
               showCards={showCards} 
               isNotFound={isNotFound} 
-              handleMoreCards={handleMoreCards} 
+              savedMovies={savedMovies}
+              handleMoreCards={handleMoreCards}
+              handleSaveMovie={handleSaveMovie}
+              handleDeleteMovie={handleDeleteMovie}
           />
 
           <ProtectedRoute
@@ -229,7 +251,8 @@ function App() {
               cards={cards}
               showCards={showCards} 
               isNotFound={isNotFound} 
-              handleMoreCards={handleMoreCards} 
+              savedMovies={savedMovies}
+              handleMoreCards={handleMoreCards}
           />
 
           <ProtectedRoute

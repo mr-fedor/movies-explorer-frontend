@@ -9,7 +9,7 @@ function MoviesCardList(props) {
         { props.isLoadingCards ? <Preloader /> : props.isNotFound ? <p className="cards__not-found">Ничего не найдено</p> : '' }
         
         {props.showCards.map((item) => {
-          return(<MoviesCard key={item.id} card={item} />);
+          return(<MoviesCard key={item.id} card={item} onSave={props.handleSaveMovie} savedMovies={props.savedMovies} onDelete={props.handleDeleteMovie} />);
         })}
 
         { props.cards.length > props.showCards.length ? 

@@ -14,7 +14,10 @@ function Movies(props){
                 cards={props.cards}
                 showCards={props.showCards} 
                 isNotFound={props.isNotFound} 
-                handleMoreCards={props.handleMoreCards} 
+                handleMoreCards={props.handleMoreCards}
+                handleSaveMovie={props.handleSaveMovie}
+                handleDeleteMovie={props.handleDeleteMovie}
+                savedMovies={props.savedMovies}
             />
             <Footer />
         </>
