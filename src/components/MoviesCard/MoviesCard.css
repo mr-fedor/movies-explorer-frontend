@@ -23,6 +23,10 @@
     }
 }
 
+.card__link{
+    text-decoration: none;
+}
+
 .card__header{
     display: flex;
     align-items: center;
@@ -41,6 +45,7 @@
     font-size: 12px;
     line-height: 18px;
     margin: 0;
+    color: #000;
 }
 
 @media screen and (min-width: 768px){

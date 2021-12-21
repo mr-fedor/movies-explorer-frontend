@@ -1,5 +1,6 @@
 import './MoviesCard.css';
 import React from 'react';
+import { Link } from 'react-router-dom';
 
 function MoviesCard(props) {
   const [isSave, setIsSave] = React.useState(false);
@@ -32,6 +33,7 @@ function MoviesCard(props) {
 
   return (
     <article className="card">
+      <Link className="card__link" to={{ pathname: props.card.trailer }} target="_blank">
         <div className="card__header">
           <h2 className="card__title">{props.card.nameRU}</h2>
           <p className="card__duration">
@@ -47,12 +49,13 @@ function MoviesCard(props) {
         { typeof(props.card.image) === "string" ? 
           <img className="card__img" src={props.card.image} alt={props.card.nameRU} />
           : '' }
+      </Link>
         
-        <div className="card__footer">
-          <button className={`card__btn ${ isSave ? 'card__btn_type_saved' : 'card__btn_type_save'} ${props.isSavedPage ? 'card__btn_type_delete' : '' }`} type="button" onClick={handleClickMovie}>
-            {!isSave && !props.isSavedPage ? 'Сохранить' : '' }
-            </button>
-        </div>
+      <div className="card__footer">
+        <button className={`card__btn ${ isSave ? 'card__btn_type_saved' : 'card__btn_type_save'} ${props.isSavedPage ? 'card__btn_type_delete' : '' }`} type="button" onClick={handleClickMovie}>
+          {!isSave && !props.isSavedPage ? 'Сохранить' : '' }
+          </button>
+      </div>
     </article>
   );
 }
