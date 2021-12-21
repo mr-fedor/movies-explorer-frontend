@@ -12,19 +12,24 @@ function MoviesCard(props) {
       setIsSave(true);
     }
   }, []);
-  
+
   function handleClickMovie(){
-    if(isSave){
-      const card = props.savedMovies.find(i => i.movieId === props.card.id);
-      if(card){
-        props.onDelete(card._id);
-      }
+    if(props.isSavedPage){
+      props.onDelete(props.card._id);
     } else {
-      props.onSave(props.card);
+      if(isSave){
+        const card = props.savedMovies.find(i => i.movieId === props.card.id);
+        if(card){
+          props.onDelete(card._id);
+          setIsSave(!isSave);
+        }
+      } else {
+        props.onSave(props.card);
+        setIsSave(!isSave);
+      }
     }
-    setIsSave(!isSave);
   }
-  
+
   return (
     <article className="card">
         <div className="card__header">
@@ -34,10 +39,18 @@ function MoviesCard(props) {
             { minutes > 0 ? `${minutes} мин. ` : '' }
           </p>
         </div>
-        <img className="card__img" src={`https://api.nomoreparties.co${props.card.image.url}`} alt={props.card.nameRU} />
+
+        { typeof(props.card.image.url) === "string" ? 
+          <img className="card__img" src={`https://api.nomoreparties.co${props.card.image.url}`} alt={props.card.nameRU} />
+          : '' }
+        
+        { typeof(props.card.image) === "string" ? 
+          <img className="card__img" src={props.card.image} alt={props.card.nameRU} />
+          : '' }
+        
         <div className="card__footer">
-          <button className={`card__btn ${ isSave ? 'card__btn_type_saved' : 'card__btn_type_save'}`} type="button" onClick={handleClickMovie}>
-            {!isSave ? 'Сохранить' : '' }
+          <button className={`card__btn ${ isSave ? 'card__btn_type_saved' : 'card__btn_type_save'} ${props.isSavedPage ? 'card__btn_type_delete' : '' }`} type="button" onClick={handleClickMovie}>
+            {!isSave && !props.isSavedPage ? 'Сохранить' : '' }
             </button>
         </div>
     </article>

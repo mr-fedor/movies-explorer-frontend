@@ -4,7 +4,7 @@ import Search from '../Search/Search';
 import MoviesCardList from '../MoviesCardList/MoviesCardList';
 import Footer from '../Footer/Footer';
 
-function Movies(props){
+function SavedMovies(props){
     return (
         <>
             <Header loggedIn={props.loggedIn} />
@@ -25,4 +25,4 @@ function Movies(props){
     );
 }
 
-export default Movies;
+export default SavedMovies;

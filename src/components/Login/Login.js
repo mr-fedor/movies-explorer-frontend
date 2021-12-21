@@ -14,11 +14,9 @@ function Login(props) {
     props.onLogin({ password, email });
   };
 
-  React.useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-        history.push('/movies');
-    }
-}, []);
+  if (localStorage.getItem('jwt')) {
+    history.push('/movies');
+  }
 
   return (
     <SignForm name="login" title="Рады видеть!" buttonText='Войти' desc={<p className="form__desc">Ещё не зарегистрированы? <Link to="/signup" className="form__link">Регистрация</Link></p>} onSubmit={handleSubmit}>

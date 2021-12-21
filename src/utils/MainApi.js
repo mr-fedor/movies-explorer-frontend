@@ -40,11 +40,11 @@ class MainApi {
           duration: data.duration,
           year: data.year,
           description: data.description,
-          image: 'https://api.nomoreparties.co/uploads' + data.image.url,
+          image: 'https://api.nomoreparties.co' + data.image.url,
           trailer: data.trailerLink,
           nameRU: data.nameRU,
           nameEN: data.nameEN,
-          thumbnail: 'https://api.nomoreparties.co/uploads' + data.image.url,
+          thumbnail: 'https://api.nomoreparties.co' + data.image.url,
           movieId: data.id,
         })
       }).then(res => this._getRes(res));

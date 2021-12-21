@@ -15,11 +15,9 @@ function Register(props) {
     props.onRegister({ password, email, name });
   }
 
-  React.useEffect(() => {
-    if (localStorage.getItem('jwt')) {
-        history.push('/');
-    }
-  }, []);
+  if (localStorage.getItem('jwt')) {
+    history.push('/');
+  }
 
   return (
     <SignForm name="register" onSubmit={handleSubmit} title="Добро пожаловать" buttonText='Сохранить' desc={<p className="form__desc">Уже зарегистрированы? <Link to="/signin" className="form__link">Войти</Link></p>}>

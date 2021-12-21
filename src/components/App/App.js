@@ -17,6 +17,7 @@ import Login from '../Login/Login'
 import moviesApi from '../../utils/MoviesApi.js';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Movies from '../Movies/Movies';
+import SavedMovies from '../SavedMovies/SavedMovies';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
 
 function App() {
@@ -29,6 +30,7 @@ function App() {
   const [dowloadCard, setDownloadCard] = React.useState(2);
 
   const [showCards, setShowCards] = React.useState([]);
+  const [showSavedMovies, setShowSavedMovies] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
 
   const [currentUser, setCurrentUser] = React.useState({ name: '', email: '', _id: '' });
@@ -38,6 +40,7 @@ function App() {
   const history = useHistory();
   const location = useLocation();
 
+  // User
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
 
@@ -51,8 +54,16 @@ function App() {
 
     if (jwt) {
       authHandle(jwt);
-      history.push(location);
+    }
+    history.push(location);
+  }, []);
 
+  React.useEffect(() => {
+    setShowCards([]);
+  }, [location]);
+
+  React.useEffect(() => {
+    if(loggedIn){
       return Promise.all([ 
         mainApi.getUserInfo(),
         mainApi.getSavedMovies(),
@@ -60,12 +71,14 @@ function App() {
       .then((values)=>{
         setCurrentUser(values[0]);
         setSavedMovies(values[1]);
+        setShowSavedMovies(values[1]);
+        localStorage.setItem("savedMovies", JSON.stringify(values[1]));
       })
       .catch((err)=>{ 
         console.log(err);
       });
     }
-  }, []);
+  }, [loggedIn]);
 
   function authHandle(jwt){
     return auth.getUser(jwt)
@@ -79,6 +92,63 @@ function App() {
       });
   };
 
+  function onRegister({ password, email, name }) {
+    return auth.register(password, email, name)
+      .then((res) => {
+        if(res._id){
+          history.push('/signin');
+          setStatusSuccessRegister('success');
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+        setStatusSuccessRegister('error');
+      })
+      .finally(() => setIsStatusSuccessPopupOpen(true));
+  };
+
+  function onLogin({password, email}){
+    return auth.authorize(password, email)
+      .then((res) => {
+        if (!res){
+          setStatusSuccessRegister('error');
+          setIsStatusSuccessPopupOpen(true);
+        }
+        if (res) {
+          setLoggedIn(true);
+          localStorage.setItem('jwt', res.token);
+          history.push('/movies');
+        }
+      })
+      .catch((err) => { 
+        setStatusSuccessRegister('error');
+        setIsStatusSuccessPopupOpen(true);
+        console.log(err);
+      });
+  }
+
+  function onSignOut(){
+    localStorage.removeItem('jwt');
+    setCards([]);
+    setShowCards([]);
+    setSavedMovies([]);
+    setLoggedIn(false);
+    history.push('/');
+  };
+
+  function handleUpdateUser(data){
+    mainApi.setUserInfo(data).then(user => {
+      setCurrentUser(user);
+    }).catch((err) => {
+      console.log(err);
+    });
+  }
+
+  function closeAllPopups(){
+    setIsStatusSuccessPopupOpen(false);
+  }
+
+  // MovieCards
   React.useEffect(() => {
     if(window.innerWidth >= 768 && window.innerWidth < 1280){
         setShowCard(8);
@@ -99,7 +169,9 @@ function App() {
       };
     }
 
+    handleResize();
     window.addEventListener('resize', handleResize);
+    
     return () => {
       window.removeEventListener('resize', handleResize); 
     };
@@ -143,70 +215,38 @@ function App() {
     setShowCards(cards.slice(0, currentCard));
   }
 
-  function onRegister({ password, email, name }) {
-    return auth.register(password, email, name)
-      .then((res) => {
-        if(res._id){
-          history.push('/signin');
-          setStatusSuccessRegister('success');
-        }
-      })
-      .catch((err) => {
-        console.log(err);
-        setStatusSuccessRegister('error');
-      })
-      .finally(() => setIsStatusSuccessPopupOpen(true));
-  };
-
-  function onLogin({password, email}){
-    return auth.authorize(password, email)
-      .then((res) => {
-        if (!res){
-          setStatusSuccessRegister('error');
-          setIsStatusSuccessPopupOpen(true);
-        }
-        if (res) {
-          setLoggedIn(true);
-          localStorage.setItem('jwt', res.token);
-          history.push('/movies');
-        }
-      })
-      .catch((err) => { 
-        setStatusSuccessRegister('error');
-        setIsStatusSuccessPopupOpen(true);
-        console.log(err);
-      });
-  }
-
-  function onSignOut(){
-    localStorage.removeItem('jwt');
-    setLoggedIn(false);
-    history.push('/');
-  };
-
-  function handleUpdateUser(data){
-    mainApi.setUserInfo(data).then(user => {
-      setCurrentUser(user);
-    }).catch((err) => {
-      console.log(err);
-    });
-  }
-
-  function closeAllPopups(){
-    setIsStatusSuccessPopupOpen(false);
-  }
-
   function handleSaveMovie(card){
     mainApi.addMovie(card).then(res => {
-      console.log('movie save');
+      setSavedMovies([...savedMovies, res]);
     }).catch((err) => {
       console.log(err); 
     });
   }
 
-  function handleDeleteMovie(card){
-    mainApi.deleteMovie(card).then(res => {
-      console.log(res);
+  function handleSearchSavedFilms(searchInput, searchShort){
+    setIsNotFound(true);
+    setShowSavedMovies(savedMovies.filter(function(item){
+      if(item.nameRU.toLowerCase().includes(searchInput.toLowerCase())){
+        if(searchShort && item.duration > 40){
+          return false;
+        }
+        
+        setIsNotFound(false);
+        return item;
+      }
+
+      return false;
+    }));
+  }
+
+  function handleDeleteMovie(idCard){
+    mainApi.deleteMovie(idCard).then(res => {
+      setSavedMovies(savedMovies.filter((item) => {
+        return item._id !== res._id;
+      }));
+      setShowSavedMovies(savedMovies.filter((item) => {
+        return item._id !== res._id;
+      }));
     }).catch((err) => {
       console.log(err); 
     });
@@ -245,14 +285,15 @@ function App() {
               exact
               path="/saved-movies"
               loggedIn={loggedIn}
-              component={Movies}
-              onSearchFilms={handleSearchFilms}
+              component={SavedMovies}
+              onSearchFilms={handleSearchSavedFilms}
               isLoadingCards={isLoadingCards} 
-              cards={cards}
-              showCards={showCards} 
+              cards={savedMovies}
+              showCards={showSavedMovies} 
               isNotFound={isNotFound} 
               savedMovies={savedMovies}
-              handleMoreCards={handleMoreCards}
+              isSavedPage={true}
+              handleDeleteMovie={handleDeleteMovie}
           />
 
           <ProtectedRoute

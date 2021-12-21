@@ -9,10 +9,10 @@ function MoviesCardList(props) {
         { props.isLoadingCards ? <Preloader /> : props.isNotFound ? <p className="cards__not-found">Ничего не найдено</p> : '' }
         
         {props.showCards.map((item) => {
-          return(<MoviesCard key={item.id} card={item} onSave={props.handleSaveMovie} savedMovies={props.savedMovies} onDelete={props.handleDeleteMovie} />);
+          return(<MoviesCard key={item.id || item._id} card={item} onSave={props.handleSaveMovie} savedMovies={props.savedMovies} onDelete={props.handleDeleteMovie} isSavedPage={props.isSavedPage} />);
         })}
 
-        { props.cards.length > props.showCards.length ? 
+        { !props.isSavedPage && props.showCards.length > 0 && props.cards.length > props.showCards.length ? 
           <div className="cards__more">
               <button className="cards__btn" type="button" onClick={props.handleMoreCards}>Ещё</button>
           </div>
