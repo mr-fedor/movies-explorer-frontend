@@ -55,6 +55,24 @@
     }
 }
 
+.cards__error{
+    text-align: center;
+}
+
+@media screen and (min-width: 768px){
+    .cards__error{
+        grid-column: 1 / 3;
+    }
+}
+
+@media screen and (min-width: 1280px){
+    .cards__error{
+        grid-column: 1 / 4;
+        font-size: 12px;
+
+    }
+}
+
 .cards__btn{
     display: inline-block;
     width: 240px;

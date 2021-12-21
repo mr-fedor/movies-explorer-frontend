@@ -19,6 +19,7 @@ function Movies(props){
                 handleDeleteMovie={props.handleDeleteMovie}
                 savedMovies={props.savedMovies}
                 isSavedPage={props.isSavedPage}
+                error={props.error}
             />
             <Footer />
         </>

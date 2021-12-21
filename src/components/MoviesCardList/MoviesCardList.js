@@ -6,7 +6,9 @@ import Preloader from '../Preloader/Preloader';
 function MoviesCardList(props) {
   return (
     <section className="cards container">
-        { props.isLoadingCards ? <Preloader /> : props.isNotFound ? <p className="cards__not-found">Ничего не найдено</p> : '' }
+        { props.isLoadingCards ? <Preloader /> : props.isNotFound && props.error.length === 0 ? <p className="cards__not-found">Ничего не найдено</p> : '' }
+
+        { props.error.length > 0 ? <p className="cards__error">{props.error}</p> : '' }
         
         {props.showCards.map((item) => {
           return(<MoviesCard key={item.id || item._id} card={item} onSave={props.handleSaveMovie} savedMovies={props.savedMovies} onDelete={props.handleDeleteMovie} isSavedPage={props.isSavedPage} />);

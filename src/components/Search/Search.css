@@ -79,6 +79,18 @@
     }
 }
 
+.search__input_error{
+    border: 1px solid #FF3055;
+}
+
+.search__error{
+    font-size: 10px;
+    line-height: 12px;
+    color: #FF3055;
+    display: block;
+    margin-top: 6px;
+}
+
 .search__btn{
     cursor: pointer;
     font-weight: 500;

@@ -3,7 +3,9 @@ import React from 'react';
 import {CurrentUserContext} from '../../contexts/CurrentUserContext';
 import { Switch, Route, useHistory, useLocation } from 'react-router-dom';
 import mainApi from '../../utils/MainApi.js';
+import moviesApi from '../../utils/MoviesApi.js';
 import * as auth from '../../utils/Auth.js';
+import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Header from '../Header/Header';
 import Footer from '../Footer/Footer';
 import Promo from '../Promo/Promo';
@@ -14,8 +16,6 @@ import Profile from '../Profile/Profile'
 import NotFound from '../NotFound/NotFound'
 import Register from '../Register/Register'
 import Login from '../Login/Login'
-import moviesApi from '../../utils/MoviesApi.js';
-import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 import Movies from '../Movies/Movies';
 import SavedMovies from '../SavedMovies/SavedMovies';
 import InfoTooltip from '../InfoTooltip/InfoTooltip';
@@ -33,6 +33,9 @@ function App() {
   const [showSavedMovies, setShowSavedMovies] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
 
+  const [error, setError] = React.useState('');
+  const [errorSave, setErrorSave] = React.useState('');
+
   const [currentUser, setCurrentUser] = React.useState({ name: '', email: '', _id: '' });
   const [savedMovies, setSavedMovies] = React.useState([]);
   const [statusSuccessRegister, setStatusSuccessRegister] = React.useState('false');
@@ -45,22 +48,9 @@ function App() {
     const jwt = localStorage.getItem('jwt');
 
     if (jwt) {
-      authHandle(jwt);
+      return authHandle(jwt);
     }
   }, [loggedIn]);
-
-  React.useEffect(() => {
-    const jwt = localStorage.getItem('jwt');
-
-    if (jwt) {
-      authHandle(jwt);
-    }
-    history.push(location);
-  }, []);
-
-  React.useEffect(() => {
-    setShowCards([]);
-  }, [location]);
 
   React.useEffect(() => {
     if(loggedIn){
@@ -73,9 +63,13 @@ function App() {
         setSavedMovies(values[1]);
         setShowSavedMovies(values[1]);
         localStorage.setItem("savedMovies", JSON.stringify(values[1]));
+        
+        setErrorSave('');
       })
       .catch((err)=>{ 
         console.log(err);
+
+        setErrorSave('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
       });
     }
   }, [loggedIn]);
@@ -85,9 +79,17 @@ function App() {
       .then((res) => {
         if (res.email) {
           setLoggedIn(true);
+
+          if (location.pathname === "/profile") {
+            history.push('/profile')
+          } else if (location.pathname === "/movies") {
+            history.push('/movies')
+          } else if (location.pathname === "/saved-movies") {
+            history.push('saved-movies')
+          }
         }
       })
-      .catch((err)=>{ 
+      .catch((err) => { 
         console.log(err);
       });
   };
@@ -96,15 +98,14 @@ function App() {
     return auth.register(password, email, name)
       .then((res) => {
         if(res._id){
-          history.push('/signin');
-          setStatusSuccessRegister('success');
+          onLogin({password, email});
         }
       })
       .catch((err) => {
         console.log(err);
+        setIsStatusSuccessPopupOpen(true)
         setStatusSuccessRegister('error');
       })
-      .finally(() => setIsStatusSuccessPopupOpen(true));
   };
 
   function onLogin({password, email}){
@@ -112,7 +113,6 @@ function App() {
       .then((res) => {
         if (!res){
           setStatusSuccessRegister('error');
-          setIsStatusSuccessPopupOpen(true);
         }
         if (res) {
           setLoggedIn(true);
@@ -121,8 +121,8 @@ function App() {
         }
       })
       .catch((err) => { 
+        setIsStatusSuccessPopupOpen(true)
         setStatusSuccessRegister('error');
-        setIsStatusSuccessPopupOpen(true);
         console.log(err);
       });
   }
@@ -185,6 +185,7 @@ function App() {
     setCards([]);
 
     moviesApi.getFilms().then(res => {
+      setError('');
       setCards(res.filter(function(item){
         if(item.nameRU.toLowerCase().includes(searchInput.toLowerCase())){
           if(searchShort && item.duration > 40){
@@ -200,6 +201,7 @@ function App() {
     })
     .catch((err) => {
       console.log(err);
+      setError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
     })
     .finally(() => {
       setIsLoadingCards(false); 
@@ -279,6 +281,7 @@ function App() {
               handleMoreCards={handleMoreCards}
               handleSaveMovie={handleSaveMovie}
               handleDeleteMovie={handleDeleteMovie}
+              error={error}
           />
 
           <ProtectedRoute
@@ -294,6 +297,7 @@ function App() {
               savedMovies={savedMovies}
               isSavedPage={true}
               handleDeleteMovie={handleDeleteMovie}
+              error={errorSave}
           />
 
           <ProtectedRoute
