@@ -8,9 +8,9 @@ function SavedMovies(props){
     return (
         <>
             <Header loggedIn={props.loggedIn} />
-            <Search onSearchFilms={props.onSearchFilms} />
+            <Search onSearchFilms={props.onSearchFilms} page={props.page} handleShortFilms={props.handleShortFilms} />
             <MoviesCardList 
-                isLoadingCards={props.isLoadingCards} 
+                isLoadingCards={props.isLoadingCards}
                 cards={props.cards}
                 showCards={props.showCards} 
                 isNotFound={props.isNotFound} 
@@ -19,7 +19,7 @@ function SavedMovies(props){
                 handleDeleteMovie={props.handleDeleteMovie}
                 savedMovies={props.savedMovies}
                 isSavedPage={props.isSavedPage}
-                error={props.error}
+                page={props.page}
             />
             <Footer />
         </>

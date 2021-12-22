@@ -8,18 +8,18 @@ function Movies(props){
     return (
         <>
             <Header loggedIn={props.loggedIn} />
-            <Search onSearchFilms={props.onSearchFilms} />
+            <Search onSearchFilms={props.onSearchFilms} handleShortFilms={props.handleShortFilms} page={props.page} />
             <MoviesCardList 
                 isLoadingCards={props.isLoadingCards} 
-                cards={props.cards}
                 showCards={props.showCards} 
+                foundCards={props.foundCards} 
                 isNotFound={props.isNotFound} 
                 handleMoreCards={props.handleMoreCards}
                 handleSaveMovie={props.handleSaveMovie}
                 handleDeleteMovie={props.handleDeleteMovie}
                 savedMovies={props.savedMovies}
                 isSavedPage={props.isSavedPage}
-                error={props.error}
+                page={props.page}
             />
             <Footer />
         </>

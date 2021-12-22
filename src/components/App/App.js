@@ -29,21 +29,44 @@ function App() {
   const [currentCard, setCurrentCard] = React.useState(7);
   const [dowloadCard, setDownloadCard] = React.useState(2);
 
+  const [foundCards, setFoundCards] = React.useState([]);
   const [showCards, setShowCards] = React.useState([]);
   const [showSavedMovies, setShowSavedMovies] = React.useState([]);
   const [loggedIn, setLoggedIn] = React.useState(false);
 
-  const [error, setError] = React.useState('');
-  const [errorSave, setErrorSave] = React.useState('');
-
   const [currentUser, setCurrentUser] = React.useState({ name: '', email: '', _id: '' });
+  
   const [savedMovies, setSavedMovies] = React.useState([]);
-  const [statusSuccessRegister, setStatusSuccessRegister] = React.useState('false');
+  const [isNotFoundSaved, setIsNotFoundSaved] = React.useState(false);
+
+  const [statusSuccessPopup, setStatusSuccessPopup] = React.useState('false');
   const [isStatusSuccessPopupOpen, setIsStatusSuccessPopupOpen] = React.useState(false);
+  const [titlePopup, setTitlePopup] = React.useState('');
+
   const history = useHistory();
   const location = useLocation();
+  const pageMovies = 'movies';
+  const pageSavedMovies = 'saved-movies';
 
   // User
+  React.useEffect(() => {
+    if(loggedIn){
+      return Promise.all([ 
+        mainApi.getUserInfo(),
+      ])
+      .then((values)=>{
+        setCurrentUser(values[0]);
+      })
+      .catch((err)=>{ 
+        console.log(err);
+
+        setIsStatusSuccessPopupOpen(true);
+        setStatusSuccessPopup('error');
+        setTitlePopup('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+      });
+    }
+  }, [loggedIn]);
+
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
 
@@ -52,40 +75,19 @@ function App() {
     }
   }, [loggedIn]);
 
-  React.useEffect(() => {
-    if(loggedIn){
-      return Promise.all([ 
-        mainApi.getUserInfo(),
-        mainApi.getSavedMovies(),
-      ])
-      .then((values)=>{
-        setCurrentUser(values[0]);
-        setSavedMovies(values[1]);
-        setShowSavedMovies(values[1]);
-        localStorage.setItem("savedMovies", JSON.stringify(values[1]));
-        
-        setErrorSave('');
-      })
-      .catch((err)=>{ 
-        console.log(err);
-
-        setErrorSave('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-      });
-    }
-  }, [loggedIn]);
-
   function authHandle(jwt){
     return auth.getUser(jwt)
       .then((res) => {
         if (res.email) {
           setLoggedIn(true);
+          setCurrentUser(res);
 
           if (location.pathname === "/profile") {
             history.push('/profile')
           } else if (location.pathname === "/movies") {
             history.push('/movies')
           } else if (location.pathname === "/saved-movies") {
-            history.push('saved-movies')
+            history.push('/saved-movies')
           }
         }
       })
@@ -103,8 +105,10 @@ function App() {
       })
       .catch((err) => {
         console.log(err);
-        setIsStatusSuccessPopupOpen(true)
-        setStatusSuccessRegister('error');
+
+        setIsStatusSuccessPopupOpen(true);
+        setStatusSuccessPopup('error');
+        setTitlePopup('Что-то пошло не так! Попробуйте ещё раз.');
       })
   };
 
@@ -112,8 +116,11 @@ function App() {
     return auth.authorize(password, email)
       .then((res) => {
         if (!res){
-          setStatusSuccessRegister('error');
+          setIsStatusSuccessPopupOpen(true);
+          setStatusSuccessPopup('error');
+          setTitlePopup('Что-то пошло не так! Попробуйте ещё раз.');
         }
+
         if (res) {
           setLoggedIn(true);
           localStorage.setItem('jwt', res.token);
@@ -121,14 +128,17 @@ function App() {
         }
       })
       .catch((err) => { 
-        setIsStatusSuccessPopupOpen(true)
-        setStatusSuccessRegister('error');
+        setIsStatusSuccessPopupOpen(true);
+        setStatusSuccessPopup('error');
+        setTitlePopup('Что-то пошло не так! Попробуйте ещё раз.');
+
+        localStorage.clear();
         console.log(err);
       });
   }
 
   function onSignOut(){
-    localStorage.removeItem('jwt');
+    localStorage.clear();
     setCards([]);
     setShowCards([]);
     setSavedMovies([]);
@@ -139,8 +149,16 @@ function App() {
   function handleUpdateUser(data){
     mainApi.setUserInfo(data).then(user => {
       setCurrentUser(user);
+
+      setIsStatusSuccessPopupOpen(true);
+      setStatusSuccessPopup('success');
+      setTitlePopup('Профиль обновлен!');
     }).catch((err) => {
       console.log(err);
+      
+      setIsStatusSuccessPopupOpen(true);
+      setStatusSuccessPopup('error');
+      setTitlePopup('Что-то пошло не так! Попробуйте ещё раз.')
     });
   }
 
@@ -151,15 +169,15 @@ function App() {
   // MovieCards
   React.useEffect(() => {
     if(window.innerWidth >= 768 && window.innerWidth < 1280){
-        setShowCard(8);
-        setCurrentCard(10);
-      } else if (window.innerWidth >= 1280) {
-        setShowCard(12);
-        setCurrentCard(15);
-      } else {
-        setShowCard(5);
-        setCurrentCard(7);
-      };
+      setShowCard(8);
+      setCurrentCard(10);
+    } else if (window.innerWidth >= 1280) {
+      setShowCard(12);
+      setCurrentCard(15);
+    } else {
+      setShowCard(5);
+      setCurrentCard(7);
+    };
 
     function handleResize() {
       if (window.innerWidth >= 1280) {
@@ -177,68 +195,148 @@ function App() {
     };
   }, []);
 
-  function handleSearchFilms(searchInput, searchShort){
+  React.useEffect(() => {
+    if(localStorage.getItem(`${pageMovies}-inputSearch`)){
+      handleSearchFilms(localStorage.getItem(`${pageMovies}-inputSearch`), localStorage.getItem(`${pageMovies}-isCheck`));
+    }
+  }, []);
+
+  function handleSearchFilms(searchInput, searchShort = false){
     setIsLoadingCards(true);
     setIsNotFound(true);
     
+    setFoundCards([]);
     setShowCards([]);
     setCards([]);
 
-    moviesApi.getFilms().then(res => {
-      setError('');
-      setCards(res.filter(function(item){
+    if(!localStorage.getItem('cards')){
+      moviesApi.getFilms().then(res => {
+        localStorage.setItem('cards', JSON.stringify(res));
+        setCards(res);
+        
+        setFoundCards(res.filter(function(item){
+          if(item.nameRU.toLowerCase().includes(searchInput.toLowerCase())){
+            if(searchShort && item.duration > 40){
+              return false;
+            }
+            setIsNotFound(false);
+            return item;
+          }
+    
+          if(!localStorage.getItem('currentCard')){
+            localStorage.setItem('currentCard', showCard);
+          }
+    
+          return false;
+        }));
+      })
+      .catch((err) => {
+        console.log(err);
+        
+        setIsStatusSuccessPopupOpen(true);
+        setStatusSuccessPopup('error');
+        setTitlePopup('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+      })
+      .finally(() => {
+        setIsLoadingCards(false); 
+      });
+    } else {
+      setCards(JSON.parse(localStorage.getItem('cards')));
+
+      setFoundCards(JSON.parse(localStorage.getItem('cards')).filter(function(item){
         if(item.nameRU.toLowerCase().includes(searchInput.toLowerCase())){
           if(searchShort && item.duration > 40){
             return false;
           }
-          
           setIsNotFound(false);
           return item;
         }
-
+  
+        if(!localStorage.getItem('currentCard')){
+          localStorage.setItem('currentCard', showCard);
+        }
+  
         return false;
       }));
-    })
-    .catch((err) => {
-      console.log(err);
-      setError('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз');
-    })
-    .finally(() => {
-      setIsLoadingCards(false); 
-    });
+    }
+
+    setIsLoadingCards(false); 
+  }
+
+  function handleShortFilms(searchShort){
+    setIsNotFound(true);
+
+    handleSearchFilms(localStorage.getItem(`${pageMovies}-inputSearch`), searchShort);
   }
 
   React.useEffect(() => {
-    setShowCards(cards.slice(0, showCard));
-  }, [cards]);
+    setShowCards(foundCards.slice(0, showCard));
+  }, [foundCards]);
 
   function handleMoreCards(){
     setCurrentCard(currentCard + dowloadCard);
-    setShowCards(cards.slice(0, currentCard));
+    localStorage.setItem('currentCard', currentCard);
+    setShowCards(foundCards.slice(0, currentCard));
   }
+
+  React.useEffect(() => {
+    if(loggedIn){
+      if(localStorage.getItem("savedMovies")){
+        setSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+        setShowSavedMovies(JSON.parse(localStorage.getItem("savedMovies")));
+      } else {
+        return Promise.all([ 
+          mainApi.getSavedMovies(),
+        ])
+        .then((values)=>{
+          setSavedMovies(values[0]);
+          setShowSavedMovies(values[0]);
+          localStorage.setItem("savedMovies", JSON.stringify(values[0]));
+        })
+        .catch((err)=>{ 
+          console.log(err);
+
+          setIsStatusSuccessPopupOpen(true);
+          setStatusSuccessPopup('error');
+          setTitlePopup('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
+        });
+      }
+    }
+  }, [loggedIn]);
+
+  React.useEffect(() => {
+    if(localStorage.getItem(`${pageSavedMovies}-inputSearch`)){
+      handleSearchSavedFilms(localStorage.getItem(`${pageSavedMovies}-inputSearch`), localStorage.getItem(`${pageSavedMovies}-isCheck`));
+    }
+  }, [savedMovies]);
 
   function handleSaveMovie(card){
     mainApi.addMovie(card).then(res => {
       setSavedMovies([...savedMovies, res]);
+      localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, res]));
     }).catch((err) => {
       console.log(err); 
     });
   }
 
-  function handleSearchSavedFilms(searchInput, searchShort){
-    setIsNotFound(true);
+  function handleSearchSavedFilms(searchInput, searchShort = false){
+    setIsNotFoundSaved(true);
     setShowSavedMovies(savedMovies.filter(function(item){
       if(item.nameRU.toLowerCase().includes(searchInput.toLowerCase())){
         if(searchShort && item.duration > 40){
           return false;
         }
         
-        setIsNotFound(false);
+        setIsNotFoundSaved(false);
         return item;
       }
 
       return false;
     }));
+  }
+
+  function handleShortSavedFilms(searchShort){
+    handleSearchSavedFilms(localStorage.getItem(`${pageSavedMovies}-inputSearch`), searchShort);
   }
 
   function handleDeleteMovie(idCard){
@@ -249,6 +347,9 @@ function App() {
       setShowSavedMovies(savedMovies.filter((item) => {
         return item._id !== res._id;
       }));
+      localStorage.setItem('savedMovies', JSON.stringify(savedMovies.filter((item) => {
+        return item._id !== res._id;
+      })));
     }).catch((err) => {
       console.log(err); 
     });
@@ -273,15 +374,16 @@ function App() {
               loggedIn={loggedIn}
               component={Movies}
               onSearchFilms={handleSearchFilms}
+              handleShortFilms={handleShortFilms}
               isLoadingCards={isLoadingCards} 
-              cards={cards}
               showCards={showCards} 
+              foundCards={foundCards}
               isNotFound={isNotFound} 
               savedMovies={savedMovies}
               handleMoreCards={handleMoreCards}
               handleSaveMovie={handleSaveMovie}
               handleDeleteMovie={handleDeleteMovie}
-              error={error}
+              page={pageMovies}
           />
 
           <ProtectedRoute
@@ -290,14 +392,14 @@ function App() {
               loggedIn={loggedIn}
               component={SavedMovies}
               onSearchFilms={handleSearchSavedFilms}
+              handleShortFilms={handleShortSavedFilms}
               isLoadingCards={isLoadingCards} 
-              cards={savedMovies}
-              showCards={showSavedMovies} 
-              isNotFound={isNotFound} 
+              showCards={showSavedMovies}
+              isNotFound={isNotFoundSaved} 
               savedMovies={savedMovies}
               isSavedPage={true}
               handleDeleteMovie={handleDeleteMovie}
-              error={errorSave}
+              page={pageSavedMovies}
           />
 
           <ProtectedRoute
@@ -321,7 +423,7 @@ function App() {
           </Route>
         </Switch>
 
-        {statusSuccessRegister && <InfoTooltip status={statusSuccessRegister} isOpen={isStatusSuccessPopupOpen} onClose={closeAllPopups} />}
+        {statusSuccessPopup && <InfoTooltip status={statusSuccessPopup} isOpen={isStatusSuccessPopupOpen} onClose={closeAllPopups} title={titlePopup} />}
       </CurrentUserContext.Provider>
     </div>
   );

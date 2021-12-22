@@ -23,10 +23,7 @@ function InfoTooltip(props){
                         src={imgStatusError} 
                     />  
                 }
-                <p className="popup__text-status">
-                    {props.status === 'success' && "Вы успешно зарегистрировались!"}
-                    {props.status === 'error' && "Что-то пошло не так! Попробуйте ещё раз."}
-                </p>
+                <p className="popup__text-status">{props.title}</p>
             </div>
         </div>
     );

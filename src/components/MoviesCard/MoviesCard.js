@@ -9,6 +9,7 @@ function MoviesCard(props) {
   const minutes = props.card.duration % 60;
   
   React.useEffect(() => {
+    
     if(props.savedMovies.some( item => item.movieId === props.card.id)){
       setIsSave(true);
     }
@@ -31,9 +32,11 @@ function MoviesCard(props) {
     }
   }
 
+  let link = props.card.trailerLink || props.card.trailer;
+
   return (
     <article className="card">
-      <Link className="card__link" to={{ pathname: props.card.trailer }} target="_blank">
+      <Link className="card__link" to={{ pathname: link }} target="_blank">
         <div className="card__header">
           <h2 className="card__title">{props.card.nameRU}</h2>
           <p className="card__duration">

@@ -3,22 +3,24 @@ import React from 'react';
 import FilterCheckbox from '../FilterCheckbox/FilterCheckbox';
 
 function Search(props) {
-  const [searchInput, setSearchInput] = React.useState(localStorage.getItem('inputSearch') ? localStorage.getItem('inputSearch') : '');
+  const [searchInput, setSearchInput] = React.useState(localStorage.getItem(`${props.page}-inputSearch`) ? localStorage.getItem(`${props.page}-inputSearch`) : '');
   
-  const [searchShort, setSearchShort] = React.useState();
+  const [searchShort, setSearchShort] = React.useState(localStorage.getItem(`${props.page}-isCheck`) ? true : false);
   const [error, setError] = React.useState('');
 
   function handleSearchInput(e){
-    localStorage.setItem('inputSearch', e.target.value);
+    localStorage.setItem(`${props.page}-inputSearch`, e.target.value);
     setSearchInput(e.target.value);
   }
 
   function handleSearchShort(val){
     setSearchShort(val);
+    props.handleShortFilms(val);
   }
 
   function handleSubmit(e) {
     e.preventDefault();
+
     if(searchInput.length > 0){
       setError('');
       props.onSearchFilms(searchInput, searchShort);
@@ -37,7 +39,7 @@ function Search(props) {
                 </label>
                 <button type="submit" className="search__btn">Найти</button>
             </div>
-            <FilterCheckbox onCheckbox={handleSearchShort} value={searchShort} />
+            <FilterCheckbox onCheck={handleSearchShort} value={searchShort} page={props.page} />
         </form>
     </section>
   );
