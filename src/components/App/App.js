@@ -65,7 +65,7 @@ function App() {
         setTitlePopup('Во время запроса произошла ошибка. Возможно, проблема с соединением или сервер недоступен. Подождите немного и попробуйте ещё раз')
       });
     }
-  }, [loggedIn]);
+  }, []);
 
   React.useEffect(() => {
     const jwt = localStorage.getItem('jwt');
@@ -313,6 +313,7 @@ function App() {
   function handleSaveMovie(card){
     mainApi.addMovie(card).then(res => {
       setSavedMovies([...savedMovies, res]);
+      setShowSavedMovies([...savedMovies, res]);
       localStorage.setItem('savedMovies', JSON.stringify([...savedMovies, res]));
     }).catch((err) => {
       console.log(err); 
