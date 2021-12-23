@@ -24,7 +24,9 @@ function Profile(props) {
       setErrorName(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorEmail === ''){
+        setIsValidForm(true);
+      }
       setErrorName('');
     }
 
@@ -36,7 +38,9 @@ function Profile(props) {
       setErrorEmail(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorName === ''){
+        setIsValidForm(true);
+      }
       setErrorEmail('');
     }
 

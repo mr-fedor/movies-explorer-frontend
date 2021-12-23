@@ -16,7 +16,9 @@ function Login(props) {
   function handleSubmit(e){
     e.preventDefault();
 
-    props.onLogin({ password, email });
+    if(isValidForm){
+      props.onLogin({ password, email });
+    }
   };
 
   function handleEmail(e){
@@ -24,7 +26,9 @@ function Login(props) {
       setErrorEmail(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorPassword === ''){
+        setIsValidForm(true);
+      }
       setErrorEmail('');
     }
 
@@ -36,7 +40,9 @@ function Login(props) {
       setErrorPassword(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorEmail === ''){
+        setIsValidForm(true);
+      }
       setErrorPassword('');
     }
     

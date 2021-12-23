@@ -1,5 +1,5 @@
-export const BASE_URL = "https://blinov-api.nomoredomains.work/api";
-// export const BASE_URL = "http://localhost:3001/api";
+// export const BASE_URL = "https://blinov-api.nomoredomains.work/api";
+export const BASE_URL = "http://localhost:3001/api";
 
 function _getRes(res){
     if (res.ok) {

@@ -17,7 +17,10 @@ function Register(props) {
 
   function handleSubmit(e){
     e.preventDefault();
-    props.onRegister({ password, email, name });
+    
+    if(isValidForm){
+      props.onRegister({ password, email, name });
+    }
   }
 
   function handleName(e){
@@ -25,7 +28,9 @@ function Register(props) {
       setErrorName(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorPassword === '' && errorEmail === ''){
+        setIsValidForm(true);
+      }
       setErrorName('');
     }
 
@@ -37,7 +42,9 @@ function Register(props) {
       setErrorEmail(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorPassword === '' && errorName === ''){
+        setIsValidForm(true);
+      }
       setErrorEmail('');
     }
 
@@ -49,7 +56,9 @@ function Register(props) {
       setErrorPassword(e.target.validationMessage);
       setIsValidForm(false);
     } else {
-      setIsValidForm(true);
+      if(errorEmail === '' && errorName === ''){
+        setIsValidForm(true);
+      }
       setErrorPassword('');
     }
     

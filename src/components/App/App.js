@@ -258,9 +258,8 @@ function App() {
   
         return false;
       }));
+      setIsLoadingCards(false); 
     }
-
-    setIsLoadingCards(false); 
   }
 
   function handleShortFilms(searchShort){
@@ -302,7 +301,7 @@ function App() {
         });
       }
     }
-  }, []);
+  }, [loggedIn]);
 
   React.useEffect(() => {
     if(localStorage.getItem(`${pageSavedMovies}-inputSearch`)){

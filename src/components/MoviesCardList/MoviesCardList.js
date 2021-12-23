@@ -4,7 +4,6 @@ import MoviesCard from '../MoviesCard/MoviesCard';
 import Preloader from '../Preloader/Preloader';
 
 function MoviesCardList(props) {
-  // console.log(props.showCards);
   return (
     <section className="cards container">
         { props.isLoadingCards ? <Preloader /> : props.isNotFound ? <p className="cards__not-found">Ничего не найдено</p> : '' }
