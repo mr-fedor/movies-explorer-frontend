@@ -9,6 +9,8 @@ function Login(props) {
 
   const [errorEmail, setErrorEmail] = React.useState('');
   const [errorPassword, setErrorPassword] = React.useState('');
+  const [isErrorEmail, setIsErrorEmail] = React.useState(true);
+  const [isErrorPassword, setIsErrorPassword] = React.useState(true);
   const [isValidForm, setIsValidForm] = React.useState(false);
 
   const history = useHistory();
@@ -25,11 +27,13 @@ function Login(props) {
     if(!e.target.validity.valid){
       setErrorEmail(e.target.validationMessage);
       setIsValidForm(false);
+      setIsErrorEmail(true);
     } else {
-      if(errorPassword === ''){
+      if(!isErrorPassword){
         setIsValidForm(true);
       }
       setErrorEmail('');
+      setIsErrorEmail(false);
     }
 
     setEmail(e.target.value);
@@ -39,11 +43,13 @@ function Login(props) {
     if(!e.target.validity.valid){
       setErrorPassword(e.target.validationMessage);
       setIsValidForm(false);
+      setIsErrorPassword(true);
     } else {
-      if(errorEmail === ''){
+      if(!isErrorEmail){
         setIsValidForm(true);
       }
       setErrorPassword('');
+      setIsErrorPassword(false);
     }
     
     setPassword(e.target.value);

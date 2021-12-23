@@ -11,6 +11,9 @@ function Register(props) {
   const [errorName, setErrorName] = React.useState('');
   const [errorEmail, setErrorEmail] = React.useState('');
   const [errorPassword, setErrorPassword] = React.useState('');
+  const [isErrorName, setIsErrorName] = React.useState(true);
+  const [isErrorEmail, setIsErrorEmail] = React.useState(true);
+  const [isErrorPassword, setIsErrorPassword] = React.useState(true);
   const [isValidForm, setIsValidForm] = React.useState(false);
 
   const history = useHistory();
@@ -27,11 +30,13 @@ function Register(props) {
     if(!e.target.validity.valid){
       setErrorName(e.target.validationMessage);
       setIsValidForm(false);
+      setIsErrorName(true);
     } else {
-      if(errorPassword === '' && errorEmail === ''){
+      if(!isErrorPassword && !isErrorEmail){
         setIsValidForm(true);
       }
       setErrorName('');
+      setIsErrorName(false);
     }
 
     setName(e.target.value);
@@ -41,11 +46,13 @@ function Register(props) {
     if(!e.target.validity.valid){
       setErrorEmail(e.target.validationMessage);
       setIsValidForm(false);
+      setIsErrorEmail(true);
     } else {
-      if(errorPassword === '' && errorName === ''){
+      if(!isErrorPassword && !isErrorName){
         setIsValidForm(true);
       }
       setErrorEmail('');
+      setIsErrorEmail(false);
     }
 
     setEmail(e.target.value);
@@ -55,11 +62,13 @@ function Register(props) {
     if(!e.target.validity.valid){
       setErrorPassword(e.target.validationMessage);
       setIsValidForm(false);
+      setIsErrorPassword(true);
     } else {
-      if(errorEmail === '' && errorName === ''){
+      if(!isErrorEmail && !isErrorName){
         setIsValidForm(true);
       }
       setErrorPassword('');
+      setIsErrorPassword(false);
     }
     
     setPassword(e.target.value);
