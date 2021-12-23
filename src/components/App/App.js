@@ -302,7 +302,7 @@ function App() {
         });
       }
     }
-  }, [loggedIn]);
+  }, []);
 
   React.useEffect(() => {
     if(localStorage.getItem(`${pageSavedMovies}-inputSearch`)){

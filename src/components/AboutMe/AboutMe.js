@@ -27,13 +27,13 @@ function AboutMe() {
         <h3 className="about-me__title-portfolio">Портфолио</h3>
         <ul className="portfolio-list">
           <li className="portfolio-list__item">
-            <Link to="#" className="portfolio-list__link" target="_blank">Статичный сайт</Link>
+            <Link to={{ pathname: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }} className="portfolio-list__link" target="_blank">Статичный сайт</Link>
           </li>
           <li className="portfolio-list__item">
-            <Link to="#" className="portfolio-list__link" target="_blank">Адаптивный сайт</Link>
+            <Link to={{ pathname: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }} className="portfolio-list__link" target="_blank">Адаптивный сайт</Link>
           </li>
           <li className="portfolio-list__item">
-            <Link to="#" className="portfolio-list__link" target="_blank">Одностраничное приложение</Link>
+            <Link to={{ pathname: "https://www.youtube.com/watch?v=dQw4w9WgXcQ" }} className="portfolio-list__link" target="_blank">Одностраничное приложение</Link>
           </li>
         </ul>
       </div>

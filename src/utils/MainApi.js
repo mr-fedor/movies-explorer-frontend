@@ -15,14 +15,20 @@ class MainApi {
   
     getUserInfo(){
       return fetch(`${this._options.baseUrl}/users/me`, {
-        headers: this._options.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        }
       }).then(res => this._getRes(res));
     }
   
     setUserInfo(data){
       return fetch(`${this._options.baseUrl}/users/me`, {
         method: 'PATCH',
-        headers: this._options.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           name: data.name,
           email: data.email,
@@ -33,7 +39,10 @@ class MainApi {
     addMovie(data){
       return fetch(`${this._options.baseUrl}/movies`, {
         method: 'POST',
-        headers: this._options.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
         body: JSON.stringify({
           country: data.country || 'страна не указана',
           director: data.director || 'режиссер не указан',
@@ -53,13 +62,20 @@ class MainApi {
     deleteMovie(idMovie){
       return fetch(`${this._options.baseUrl}/movies/${idMovie}`, {
         method: 'DELETE',
-        headers: this._options.headers,
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
       }).then(res => this._getRes(res));  
     }
 
     getSavedMovies(){
       return fetch(`${this._options.baseUrl}/movies`, {
-        headers: this._options.headers,
+        method: "GET",
+        headers: {
+          authorization: `Bearer ${localStorage.getItem('jwt')}`,
+          'Content-Type': 'application/json',
+        },
       })
       .then(res => this._getRes(res));
     }
