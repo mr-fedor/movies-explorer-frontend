@@ -7,12 +7,53 @@ function Register(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
   const [name, setName] = React.useState('');
+
+  const [errorName, setErrorName] = React.useState('');
+  const [errorEmail, setErrorEmail] = React.useState('');
+  const [errorPassword, setErrorPassword] = React.useState('');
+  const [isValidForm, setIsValidForm] = React.useState(false);
+
   const history = useHistory();
 
   function handleSubmit(e){
     e.preventDefault();
-
     props.onRegister({ password, email, name });
+  }
+
+  function handleName(e){
+    if(!e.target.validity.valid){
+      setErrorName(e.target.validationMessage);
+      setIsValidForm(false);
+    } else {
+      setIsValidForm(true);
+      setErrorName('');
+    }
+
+    setName(e.target.value);
+  }
+
+  function handleEmail(e){
+    if(!e.target.validity.valid){
+      setErrorEmail(e.target.validationMessage);
+      setIsValidForm(false);
+    } else {
+      setIsValidForm(true);
+      setErrorEmail('');
+    }
+
+    setEmail(e.target.value);
+  }
+
+  function handlePassword(e){
+    if(!e.target.validity.valid){
+      setErrorPassword(e.target.validationMessage);
+      setIsValidForm(false);
+    } else {
+      setIsValidForm(true);
+      setErrorPassword('');
+    }
+    
+    setPassword(e.target.value);
   }
 
   React.useEffect(() => {
@@ -22,7 +63,7 @@ function Register(props) {
   }, []);
 
   return (
-    <SignForm name="register" onSubmit={handleSubmit} title="Добро пожаловать" buttonText='Сохранить' desc={<p className="form__desc">Уже зарегистрированы? <Link to="/signin" className="form__link">Войти</Link></p>}>
+    <SignForm isValid={isValidForm} name="register" onSubmit={handleSubmit} title="Добро пожаловать" buttonText='Сохранить' desc={<p className="form__desc">Уже зарегистрированы? <Link to="/signin" className="form__link">Войти</Link></p>}>
       <fieldset className="form__fieldset">
           <label className="form__label">
               <span className="form__label-title">Имя</span>
@@ -35,9 +76,9 @@ function Register(props) {
                 type="text" 
                 id="name-input" 
                 value={name}
-                onChange={e => setName(e.target.value)} 
+                onChange={handleName} 
               />
-              <span className="form__error name-input-error"></span>
+              <span className="form__error name-input-error">{errorName}</span>
           </label>
           <label className="form__label">
               <span className="form__label-title">E-mail</span>
@@ -45,12 +86,13 @@ function Register(props) {
                 required
                 className="form__input form__input_email" 
                 name="email" 
-                type="email" 
+                type="email"
+                pattern="[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$"
                 id="email-input"
                 value={email}
-                onChange={e => setEmail(e.target.value)}  
+                onChange={handleEmail}  
               />
-              <span className="form__error email-input-error"></span>
+              <span className="form__error email-input-error">{errorEmail}</span>
           </label>
           <label className="form__label">
               <span className="form__label-title">Пароль</span>
@@ -62,9 +104,9 @@ function Register(props) {
                 type="password" 
                 id="password-input"
                 value={password}
-                onChange={e => setPassword(e.target.value)} 
+                onChange={handlePassword} 
               />
-              <span className="form__error password-input-error"></span>
+              <span className="form__error password-input-error">{errorPassword}</span>
           </label>
       </fieldset>
     </SignForm>

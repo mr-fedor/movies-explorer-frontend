@@ -6,6 +6,11 @@ import { Link, useHistory } from 'react-router-dom';
 function Login(props) {
   const [email, setEmail] = React.useState('');
   const [password, setPassword] = React.useState('');
+
+  const [errorEmail, setErrorEmail] = React.useState('');
+  const [errorPassword, setErrorPassword] = React.useState('');
+  const [isValidForm, setIsValidForm] = React.useState(false);
+
   const history = useHistory();
 
   function handleSubmit(e){
@@ -14,6 +19,30 @@ function Login(props) {
     props.onLogin({ password, email });
   };
 
+  function handleEmail(e){
+    if(!e.target.validity.valid){
+      setErrorEmail(e.target.validationMessage);
+      setIsValidForm(false);
+    } else {
+      setIsValidForm(true);
+      setErrorEmail('');
+    }
+
+    setEmail(e.target.value);
+  }
+
+  function handlePassword(e){
+    if(!e.target.validity.valid){
+      setErrorPassword(e.target.validationMessage);
+      setIsValidForm(false);
+    } else {
+      setIsValidForm(true);
+      setErrorPassword('');
+    }
+    
+    setPassword(e.target.value);
+  }
+
   React.useEffect(() => {
     if (localStorage.getItem('jwt')) {
         history.push('/movies');
@@ -21,7 +50,7 @@ function Login(props) {
   }, []);
 
   return (
-    <SignForm name="login" title="Рады видеть!" buttonText='Войти' desc={<p className="form__desc">Ещё не зарегистрированы? <Link to="/signup" className="form__link">Регистрация</Link></p>} onSubmit={handleSubmit}>
+    <SignForm isValid={isValidForm} name="login" title="Рады видеть!" buttonText='Войти' desc={<p className="form__desc">Ещё не зарегистрированы? <Link to="/signup" className="form__link">Регистрация</Link></p>} onSubmit={handleSubmit}>
       <fieldset className="form__fieldset">
           <label className="form__label">
               <span className="form__label-title">Email</span>
@@ -32,9 +61,9 @@ function Login(props) {
                 type="email" 
                 id="email-input"
                 value={email}
-                onChange={e => setEmail(e.target.value)}  
+                onChange={handleEmail}  
               />
-              <span className="form__error name-input-error"></span>
+              <span className="form__error name-input-error">{errorEmail}</span>
           </label>
           <label className="form__label">
               <span className="form__label-title">Пароль</span>
@@ -46,9 +75,9 @@ function Login(props) {
                 type="password" 
                 id="password-input"
                 value={password}
-                onChange={e => setPassword(e.target.value)} 
+                onChange={handlePassword} 
               />
-              <span className="form__error password-input-error"></span>
+              <span className="form__error password-input-error">{errorPassword}</span>
           </label>
       </fieldset>
     </SignForm>

@@ -81,6 +81,16 @@
     line-height: 13px;
 }
 
+.profile__error{
+    font-size: 10px;
+    line-height: 12px;
+    color: #FF3055;
+    display: block;
+    margin-top: 6px;
+    margin-bottom: 6px;
+    text-align: right;
+}
+
 .profile__handlers{
     padding: 0;
     border: none;
