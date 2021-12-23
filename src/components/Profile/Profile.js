@@ -49,22 +49,18 @@ function Profile(props) {
             </div>
           </fieldset>
 
+          <fieldset className="profile__handlers profile__btns">
           { isEdit ?
-            <fieldset className="profile__handlers">
-              <button 
-                className={`profile__submit ${ currentUser.email === email && currentUser.name === name ? 'profile__submit_disabled' : '' }`} 
-                type="submit"
-                disabled={ currentUser.email === email && currentUser.name === name ? 'disabled' : '' }>Сохранить</button>
-            </fieldset>
-            : '' }
+            <button 
+              className={`profile__submit ${ currentUser.email === email && currentUser.name === name ? 'profile__submit_disabled' : '' }`} 
+              type="submit"
+              disabled={ currentUser.email === email && currentUser.name === name ? 'disabled' : '' }>Сохранить</button>
+            : 
+            <button type="button" className="profile__btn profile__btn_edit" onClick={handleStartEditForm}>Редактировать</button> 
+          }
+          <button type="button" className="profile__btn profile__btn_logout" onClick={props.onSignOut}>Выйти из аккаунта</button>
+        </fieldset>
         </form>
-
-        { !isEdit ? 
-          <div className="profile__btns">
-            <button type="button" className="profile__btn profile__btn_edit" onClick={handleStartEditForm}>Редактировать</button>
-            <button type="button" className="profile__btn profile__btn_logout" onClick={props.onSignOut}>Выйти из аккаунта</button>
-          </div>
-          : '' }
       </section>
     </>
   );
