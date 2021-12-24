@@ -23,6 +23,10 @@
     }
 }
 
+.card__link{
+    text-decoration: none;
+}
+
 .card__header{
     display: flex;
     align-items: center;
@@ -41,6 +45,7 @@
     font-size: 12px;
     line-height: 18px;
     margin: 0;
+    color: #000;
 }
 
 @media screen and (min-width: 768px){
@@ -54,6 +59,8 @@
     color: #A0A0A0;
     font-size: 10px;
     line-height: 18px;
+    white-space: nowrap;
+    margin-left: 5px;
 }
 
 @media screen and (min-width: 768px){

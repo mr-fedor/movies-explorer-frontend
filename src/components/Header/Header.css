@@ -78,6 +78,7 @@
     align-items: center;
     justify-content: center;
     border: 2px solid #AAAAAA;
+    background-color: #fff;
     border-radius: 50px;
     font-size: 14px;
     line-height: 16px;
@@ -244,6 +245,10 @@
 
 .header__hamburger:hover{
     opacity: .8;
+}
+
+.header__hamburger_white{
+    background-image: url(../../images/icon-hamburger_white.svg);
 }
 
 @media screen and (min-width: 1280px){

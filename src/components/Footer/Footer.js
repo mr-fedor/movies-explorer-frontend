@@ -9,9 +9,9 @@ function Footer() {
       <div className="footer__container">
         <nav className="footer__nav">
           <ul className="footer__list">
-            <li className="footer__item"><Link to="#" className="footer__link">Яндекс.Практикум</Link></li>
-            <li className="footer__item"><Link to="#" className="footer__link">Github</Link></li>
-            <li className="footer__item"><Link to="#" className="footer__link">Facebook</Link></li>
+            <li className="footer__item"><Link to={{ pathname: "https://practicum.yandex.ru/" }} target="_blank" className="footer__link">Яндекс.Практикум</Link></li>
+            <li className="footer__item"><Link to={{ pathname: "https://github.com/mr-fedor" }} target="_blank" className="footer__link">Github</Link></li>
+            <li className="footer__item"><Link to={{ pathname: "https://t.me/mr_fedor" }} target="_blank" className="footer__link">Telegram</Link></li>
           </ul>
         </nav>
 

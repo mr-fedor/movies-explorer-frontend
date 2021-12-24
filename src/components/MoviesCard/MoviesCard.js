@@ -1,22 +1,64 @@
 import './MoviesCard.css';
 import React from 'react';
-import imgCard from '../../images/card-1.jpg'; 
+import { Link } from 'react-router-dom';
 
-function MoviesCard() {
+function MoviesCard(props) {
   const [isSave, setIsSave] = React.useState(false);
   
+  const hours = Math.floor(props.card.duration / 60);
+  const minutes = props.card.duration % 60;
+  
+  React.useEffect(() => {
+    
+    if(props.savedMovies.some( item => item.movieId === props.card.id)){
+      setIsSave(true);
+    }
+  }, []);
+
+  function handleClickMovie(){
+    if(props.isSavedPage){
+      props.onDelete(props.card._id);
+    } else {
+      if(isSave){
+        const card = props.savedMovies.find(i => i.movieId === props.card.id);
+        if(card){
+          props.onDelete(card._id);
+          setIsSave(!isSave);
+        }
+      } else {
+        props.onSave(props.card);
+        setIsSave(!isSave);
+      }
+    }
+  }
+
+  let link = props.card.trailerLink || props.card.trailer;
+
   return (
     <article className="card">
+      <Link className="card__link" to={{ pathname: link }} target="_blank">
         <div className="card__header">
-          <h2 className="card__title">В погоне за Бенкси</h2>
-          <p className="card__duration">27 минут</p>
+          <h2 className="card__title">{props.card.nameRU}</h2>
+          <p className="card__duration">
+            { hours > 0 ? `${hours} ч. ` : '' }
+            { minutes > 0 ? `${minutes} мин. ` : '' }
+          </p>
         </div>
-        <img className="card__img" src={imgCard} alt="В погоне за Бенкси" />
-        <div className="card__footer">
-          <button className={`card__btn ${ isSave ? 'card__btn_type_saved' : 'card__btn_type_save'}`} type="button" onClick={() => {setIsSave(!isSave)}}>
-            {!isSave ? 'Сохранить' : '' }
-            </button>
-        </div>
+
+        { typeof(props.card.image.url) === "string" ? 
+          <img className="card__img" src={`https://api.nomoreparties.co${props.card.image.url}`} alt={props.card.nameRU} />
+          : '' }
+        
+        { typeof(props.card.image) === "string" ? 
+          <img className="card__img" src={props.card.image} alt={props.card.nameRU} />
+          : '' }
+      </Link>
+        
+      <div className="card__footer">
+        <button className={`card__btn ${ isSave ? 'card__btn_type_saved' : 'card__btn_type_save'} ${props.isSavedPage ? 'card__btn_type_delete' : '' }`} type="button" onClick={handleClickMovie}>
+          {!isSave && !props.isSavedPage ? 'Сохранить' : '' }
+          </button>
+      </div>
     </article>
   );
 }
